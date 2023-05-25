@@ -38,8 +38,8 @@ public class BLService
             em.getTransaction().begin();
 
             Player p = new Player();
-            p.setEmail("125@isel.pt");
-            p.setUsername("test5");
+            p.setEmail("1225@isel.pt");
+            p.setUsername("te2st5");
             p.setState("Ativo");
             Regions r = new Regions();
             r.setName("Europe");
@@ -78,8 +78,8 @@ public class BLService
             em.getTransaction().begin();
             //suposto chamar create_player mas da erro.
             Query query = em.createNativeQuery("CALL create_player_logic(?, ?, ?)");
-            query.setParameter(1, "vamos@isel.pt");
-            query.setParameter(2, "vamos");
+            query.setParameter(1, "bernardoss@isel.pt");
+            query.setParameter(2, "12234");
             query.setParameter(3, "Europe");
 
             query.executeUpdate();
@@ -174,6 +174,9 @@ public class BLService
             Query query = em.createNativeQuery("CALL iniciar_conversa_logica(?,?,?)");
             query.setParameter(1, 3); //player id
             query.setParameter(2, "JPA CONVERSATION"); //conversation name
+            Integer a = null;
+            query.setParameter(3,a);
+            System.out.println(a);
             query.executeUpdate();
 
             em.getTransaction().commit();

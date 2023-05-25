@@ -3,8 +3,11 @@ package model.players;
 import jakarta.persistence.*;
 import model.conversation.Conversation;
 //import model.conversation.Messages;
+//import model.conversation.Message;
 import model.regions.*;
+import org.glassfish.jaxb.core.marshaller.Messages;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -43,7 +46,7 @@ public class Player {
 //            @JoinColumn(name="message_number"),
 //            @JoinColumn(name="conversation_id", referencedColumnName="id")
 //    })
-//    private List<Messages> messages;
+//    private List<Message> messages;
 
     public Player() {
     }
@@ -113,11 +116,19 @@ public class Player {
         this.conversations.remove(conversation);
     }
 
-//    public List<Messages> getMessages() {
+//    public List<Message> getMessages() {
 //        return this.messages;
 //    }
 //
-//    public void setMessages(List<Messages> messages) {
+//    public void setMessages(List<Message> messages) {
 //        this.messages = messages;
+//    }
+//
+//    public void addMessage(Message message) {
+//        this.messages.add(message);
+//    }
+//
+//    public void removeMessage(Message message) {
+//        this.messages.remove(message);
 //    }
 }
