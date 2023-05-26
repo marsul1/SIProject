@@ -19,8 +19,8 @@ public class Conversation {
     @ManyToMany(mappedBy="conversations",cascade=CascadeType.REMOVE)
     private Set<Player> players;
 
-//    @OneToMany(mappedBy="conversation",cascade=CascadeType.PERSIST, orphanRemoval=true)
-//    private List<Message> messages;
+    @OneToMany(mappedBy="conversation",cascade=CascadeType.PERSIST, orphanRemoval=true)
+    private List<Message> messages;
 
     public Conversation() {
     }
@@ -59,21 +59,21 @@ public class Conversation {
         this.players.remove(player);
     }
 
-//    public List<Message> getMessages() {
-//        return this.messages;
-//    }
-//
-//    public void setMessages(List<Message> messages) {
-//        this.messages = messages;
-//    }
-//
-//    public void addMessages(Message message) {
-//        getMessages().add(message);
-//        message.setConversation(this);
-//    }
-//
-//    public void removeMessages(Message message) {
-//        getMessages().remove(message);
-//        message.setConversation(null);
-//    }
+    public List<Message> getMessages() {
+        return this.messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
+    public void addMessages(Message message) {
+        getMessages().add(message);
+        message.setConversation(this);
+    }
+
+    public void removeMessages(Message message) {
+        getMessages().remove(message);
+        message.setConversation(null);
+    }
 }

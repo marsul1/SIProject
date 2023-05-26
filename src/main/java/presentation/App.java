@@ -40,7 +40,8 @@ public class App
 			() -> {try { srv.testD1(); } catch(Exception e) {}},
 			() -> {try { srv.testD2(); } catch(Exception e) {}},
 			() -> {try { srv.testD3(); } catch(Exception e) {}},
-			() -> {try { srv.testI1(); } catch(Exception e) {}}
+			() -> {try { srv.testI1(); } catch(Exception e) {}},
+			() -> {try { srv.testJ1(); } catch(Exception e) {}}
       };
 
    	Scanner imp = new Scanner(System.in );

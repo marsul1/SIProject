@@ -64,7 +64,7 @@ public class BLService
         }
         catch(Exception e)
         {
-            System.out.println(e.getMessage());
+            System.out.println("[::ERROR::]" + e.getMessage());
             throw e;
         }
         finally
@@ -100,7 +100,7 @@ public class BLService
         }
         catch(Exception e)
         {
-            System.out.println(e.getMessage());
+            System.out.println("[::ERROR::]" + e.getMessage());
             throw e;
         }
         finally
@@ -132,7 +132,7 @@ public class BLService
         }
         catch(Exception e)
         {
-            System.out.println(e.getMessage());
+            System.out.println("[::ERROR::]" + e.getMessage());
             throw e;
         }
         finally
@@ -165,7 +165,7 @@ public class BLService
         }
         catch(Exception e)
         {
-            System.out.println(e.getMessage());
+            System.out.println("[::ERROR::]" + e.getMessage());
             throw e;
         }
         finally
@@ -195,7 +195,7 @@ public class BLService
         }
         catch(Exception e)
         {
-            System.out.println(e.getMessage());
+            System.out.println("[::ERROR::]" + e.getMessage());
             throw e;
         }
         finally
@@ -225,7 +225,7 @@ public class BLService
         }
         catch(Exception e)
         {
-            System.out.println(e.getMessage());
+            System.out.println("[::ERROR::]" + e.getMessage());
             throw e;
         }
         finally
@@ -252,15 +252,49 @@ public class BLService
                     Integer.class, ParameterMode.IN);
             query.registerStoredProcedureParameter( 2, String.class,
                     ParameterMode.IN);
+            query.registerStoredProcedureParameter(3, Integer.class, ParameterMode.OUT);
             query.setParameter(1, 3);
             query.setParameter(2, "new function");
             query.execute();
+
+            Integer returnValue = (Integer) query.getOutputParameterValue(3); // Retrieve the return value
+            System.out.println("Return value: " + returnValue);
 
             em.getTransaction().commit();
         }
         catch(Exception e)
         {
-            System.out.println(e.getMessage());
+            System.out.println("[::ERROR::]" + e.getMessage());
+            throw e;
+        }
+        finally
+        {
+            em.close();
+            emf.close();
+        }
+    }
+
+    public  void testJ1() throws Exception // Alinea D
+    {
+        //ban player
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
+        EntityManager em = emf.createEntityManager();
+        try
+        {
+            System.out.println("Criar com o procedimento juntar_conversa");
+            em.getTransaction().begin();
+            //suposto chamar create_player mas da erro.
+            Query query = em.createNativeQuery("CALL juntar_conversa_logica(?,?)");
+            query.setParameter(1, 2);
+            query.setParameter(2, 3);
+            query.executeUpdate();
+
+            em.getTransaction().commit();
+
+        }
+        catch(Exception e)
+        {
+            System.out.println("[::ERROR::]" + e.getMessage());
             throw e;
         }
         finally

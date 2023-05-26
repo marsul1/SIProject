@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import model.conversation.Conversation;
 //import model.conversation.Messages;
 //import model.conversation.Message;
+import model.conversation.Message;
 import model.regions.*;
 import org.glassfish.jaxb.core.marshaller.Messages;
 
@@ -17,7 +18,7 @@ public class Player {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
 
     private String email;
@@ -41,12 +42,12 @@ public class Player {
             inverseJoinColumns=@JoinColumn(name="conversations_id"))
     private Set<Conversation> conversations;
 
-//    @OneToMany
-//    @JoinColumns({
-//            @JoinColumn(name="message_number"),
-//            @JoinColumn(name="conversation_id", referencedColumnName="id")
-//    })
-//    private List<Message> messages;
+    @OneToMany
+    @JoinColumns({
+            @JoinColumn(name="message_number"),
+            @JoinColumn(name="conversation_id", referencedColumnName="id")
+    })
+    private List<Message> messages;
 
     public Player() {
     }
@@ -116,19 +117,19 @@ public class Player {
         this.conversations.remove(conversation);
     }
 
-//    public List<Message> getMessages() {
-//        return this.messages;
-//    }
-//
-//    public void setMessages(List<Message> messages) {
-//        this.messages = messages;
-//    }
-//
-//    public void addMessage(Message message) {
-//        this.messages.add(message);
-//    }
-//
-//    public void removeMessage(Message message) {
-//        this.messages.remove(message);
-//    }
+    public List<Message> getMessages() {
+        return this.messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
+    public void addMessage(Message message) {
+        this.messages.add(message);
+    }
+
+    public void removeMessage(Message message) {
+        this.messages.remove(message);
+    }
 }
