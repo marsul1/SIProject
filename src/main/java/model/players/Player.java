@@ -17,7 +17,7 @@ public class Player {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private long id;
+    private Integer id;
 
 
     private String email;
@@ -52,11 +52,11 @@ public class Player {
     }
 
     //@Id
-    public long getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(long pId) {
+    public void setId(Integer pId) {
         this.id = pId;
     }
 

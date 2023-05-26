@@ -34,11 +34,13 @@ public class App
 	public static void main( String[] args ) throws Exception
    {   BLService srv = new BLService();
    	ITest tests[] = new ITest[] {
-         () -> {try { srv.testD1(); } catch(Exception e) {}}
-        , () -> {try { srv.testD2(); } catch(Exception e) {}}
-       , () -> {try { srv.testD3(); } catch(Exception e) {}}
-        , () -> {try { srv.testD4(); } catch(Exception e) {}}
-        , () -> {try { srv.testI1(); } catch(Exception e) {}}
+			() -> {try { srv.testT1(); } catch(Exception e) {}},
+			() -> {try { srv.testT2(); } catch(Exception e) {}},
+			() -> {try { srv.testT3(); } catch(Exception e) {}},
+			() -> {try { srv.testD1(); } catch(Exception e) {}},
+			() -> {try { srv.testD2(); } catch(Exception e) {}},
+			() -> {try { srv.testD3(); } catch(Exception e) {}},
+			() -> {try { srv.testI1(); } catch(Exception e) {}}
       };
 
    	Scanner imp = new Scanner(System.in );

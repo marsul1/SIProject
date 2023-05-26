@@ -9,7 +9,7 @@ public class PlayerStat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Integer id;
 
 
     private long num_matches;
@@ -28,11 +28,11 @@ public class PlayerStat {
     }
 
     //@Id
-    public long getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(long psId) {
+    public void setId(Integer psId) {
         this.id = psId;
     }
 

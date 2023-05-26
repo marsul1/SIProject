@@ -48,5 +48,12 @@ public class Game /*implements Serializable*/ {
         this.url = gUrl;
     }
 
+    public GameStat getGameStat() {
+        return this.gameStat;
+    }
+
+    public void setGameStat(GameStat gameStat ) {
+        this.gameStat = gameStat;
+    }
 
 }

@@ -12,7 +12,7 @@ public class Conversation {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private long id;
+    private Integer  id;
 
     private String name;
 
@@ -26,11 +26,11 @@ public class Conversation {
     }
 
     //@Id
-    public long getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(long cId) {
+    public void setId(Integer cId) {
         this.id = cId;
     }
 

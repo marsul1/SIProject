@@ -15,9 +15,14 @@ package businessLogic;
 import jakarta.persistence.*;
 
 
+import model.conversation.Conversation;
+import model.game.Game;
+import model.game.GameStat;
 import model.players.PlayerStat;
 import model.players.Player;
 import model.regions.Regions;
+
+import java.util.Set;
 
 /**
  * Hello world!
@@ -26,7 +31,7 @@ import model.regions.Regions;
 public class BLService 
 {
     @SuppressWarnings("unchecked")
-    public  void testD1() throws Exception // Alinea D
+    public  void testT1() throws Exception // Alinea D
     {
         // Cria um player e consequentemente uma nova linha em player_stats com tudo a 0
 
@@ -67,7 +72,75 @@ public class BLService
     }
 
     @SuppressWarnings("unchecked")
-    public  void testD2() throws Exception // Alinea D
+    public  void testT2() throws Exception //
+    {
+        //ban player
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
+        EntityManager em = emf.createEntityManager();
+        try
+        {
+            // Cria um GAME e consequentemente uma nova linha em game_stats com tudo a 0
+            em.getTransaction().begin();
+
+            Game g = new Game();
+            g.setReference("G7");
+            g.setName("TEST1");
+            g.setUrl("www.tests.pt");
+            GameStat gs =new GameStat();
+            gs.setNumMatches(0);
+            gs.setTotalPoints(0);
+            gs.setNumPlayers(0);
+            g.setGameStat(gs);
+            em.persist(g);
+            em.getTransaction().commit();
+
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+            throw e;
+        }
+        finally
+        {
+            em.close();
+            emf.close();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public  void testT3() throws Exception //
+    {
+        //ban player
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
+        EntityManager em = emf.createEntityManager();
+        try
+        {
+            // criar conversa dado um jogador
+            em.getTransaction().begin();
+
+            Conversation c = new Conversation();
+            c.setName("Conversation test");
+            Player player = em.find(Player.class, 3);
+            Set<Player> players = Set.of(player);
+            c.setPlayers(players);
+            em.persist(c);
+            em.getTransaction().commit();
+
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+            throw e;
+        }
+        finally
+        {
+            em.close();
+            emf.close();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public  void testD1() throws Exception // Alinea D
     {
         //create player
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
@@ -100,7 +173,7 @@ public class BLService
     }
 
     @SuppressWarnings("unchecked")
-    public  void testD3() throws Exception // Alinea D
+    public  void testD2() throws Exception // Alinea D
     {
         //ban player
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
@@ -130,7 +203,7 @@ public class BLService
     }
 
     @SuppressWarnings("unchecked")
-    public  void testD4() throws Exception // Alinea D
+    public  void testD3() throws Exception // Alinea D
     {
         //ban player
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
@@ -174,8 +247,9 @@ public class BLService
             Query query = em.createNativeQuery("CALL iniciar_conversa_logica(?,?,?)");
             query.setParameter(1, 3); //player id
             query.setParameter(2, "JPA CONVERSATION"); //conversation name
-            Integer a = null;
-            query.setParameter(3,a);
+            Integer a = 1;
+
+            a = query.setParameter(3,a).getFirstResult();
             System.out.println(a);
             query.executeUpdate();
 

@@ -10,11 +10,11 @@ public class GameStat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Integer id;
 
     private long num_matches;
 
-    private long num_games_played;
+    private long num_players;
 
     private long total_points;
 
@@ -26,36 +26,43 @@ public class GameStat {
     }
 
     //@Id
-    public long getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(long psId) {
+    public void setId(Integer psId) {
         this.id = psId;
     }
 
-    public long getNum_matches() {
+    public long getNumMatches() {
         return this.num_matches;
     }
 
-    public void setNum_matches(long numMatches) {
+    public void setNumMatches(long numMatches) {
         this.num_matches = numMatches;
     }
 
-    public long getNum_games_played() {
-        return this.num_games_played;
+    public long getNumPlayers() {
+        return this.num_players;
     }
 
-    public void setNum_games_played(long numGamesPlayed) {
-        this.num_games_played = numGamesPlayed;
+    public void setNumPlayers(long num_players) {
+        this.num_players = num_players;
     }
 
-    public long getTotal_points() {
+    public long getTotalPoints() {
         return this.total_points;
     }
 
-    public void setTotal_points(long totalPoints) {
+    public void setTotalPoints(long totalPoints) {
         this.total_points = totalPoints;
     }
 
+    public Game getGame() {
+        return this.game;
+    }
+
+    public void setGame(Game game ) {
+        this.game = game;
+    }
 }
