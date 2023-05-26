@@ -23,6 +23,17 @@ begin
 end;
 $$ language plpgsql;
 
+create or replace function function_iniciar_conversa_logica(
+    IN player_id_param integer,
+    IN conversation_name varchar(255)
+)returns int
+as $$
+declare
+    conversation_id int;
+begin
+    call iniciar_conversa_logica(player_id_param,conversation_name, conversation_id);
+    return conversation_id;
+end;$$ language plpgsql;
 
 CREATE OR REPLACE PROCEDURE iniciar_conversa(
     IN player_id_param integer,

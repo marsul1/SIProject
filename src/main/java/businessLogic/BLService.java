@@ -42,10 +42,13 @@ public class BLService
             System.out.println("Criar player");
             em.getTransaction().begin();
 
+            Query query = em.createQuery("SELECT MAX(p.id) FROM Player p");
+            Integer maxId = (Integer) query.getSingleResult();
             Player p = new Player();
             p.setEmail("1225@isel.pt");
             p.setUsername("te2st5");
             p.setState("Ativo");
+            p.setId(maxId);
             Regions r = new Regions();
             r.setName("Europe");
             p.setRegion(r);
@@ -243,15 +246,15 @@ public class BLService
         {
             System.out.println("Criar com o procedimento iniciar_conversa_logica");
             em.getTransaction().begin();
-            //suposto chamar create_player mas da erro.
-            Query query = em.createNativeQuery("CALL iniciar_conversa_logica(?,?,?)");
-            query.setParameter(1, 3); //player id
-            query.setParameter(2, "JPA CONVERSATION"); //conversation name
-            Integer a = 1;
 
-            a = query.setParameter(3,a).getFirstResult();
-            System.out.println(a);
-            query.executeUpdate();
+            StoredProcedureQuery query = em.createStoredProcedureQuery("function_iniciar_conversa_logica");
+            query.registerStoredProcedureParameter(1,
+                    Integer.class, ParameterMode.IN);
+            query.registerStoredProcedureParameter( 2, String.class,
+                    ParameterMode.IN);
+            query.setParameter(1, 3);
+            query.setParameter(2, "new function");
+            query.execute();
 
             em.getTransaction().commit();
         }
