@@ -42,7 +42,7 @@ public class Player {
             inverseJoinColumns=@JoinColumn(name="conversations_id"))
     private Set<Conversation> conversations;
 
-    @OneToMany
+    @OneToMany(mappedBy="player",cascade=CascadeType.PERSIST, orphanRemoval=true)
     @JoinColumns({
             @JoinColumn(name="message_number"),
             @JoinColumn(name="conversation_id", referencedColumnName="id")
@@ -93,13 +93,7 @@ public class Player {
         this.region_name = pRegion;
     }
 
-    public PlayerStat getPlayerStats() {
-        return this.playerStat;
-    }
 
-    public void setPlayerStats(PlayerStat playerStat) {
-        this.playerStat = playerStat;
-    }
 
     public Set<Conversation> getConversations() {
         return this.conversations;
@@ -131,5 +125,13 @@ public class Player {
 
     public void removeMessage(Message message) {
         this.messages.remove(message);
+    }
+
+    public PlayerStat getPlayerStat() {
+        return playerStat;
+    }
+
+    public void setPlayerStat(PlayerStat playerStat) {
+        this.playerStat = playerStat;
     }
 }

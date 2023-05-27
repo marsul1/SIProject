@@ -14,14 +14,13 @@ public class Message {
 
     private String name;
 
-    @MapsId("conversations_id")
+    @MapsId("conversation_id")
     @ManyToOne
-    @JoinColumn(name="conversation_id", referencedColumnName = "id")
+    @JoinColumn(name="conversation_id")
     private Conversation conversation;
 
-    @MapsId("player_id")
     @ManyToOne
-    @JoinColumn(name="player_id", referencedColumnName = "id")
+    @JoinColumn(name="player_id")
     private Player player;
 
     public Message() {

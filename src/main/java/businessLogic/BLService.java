@@ -42,11 +42,12 @@ public class BLService
             System.out.println("Criar player");
             em.getTransaction().begin();
 
+
             Query query = em.createQuery("SELECT MAX(p.id) FROM Player p");
             Integer maxId = (Integer) query.getSingleResult();
             Player p = new Player();
-            p.setEmail("1225@isel.pt");
-            p.setUsername("te2st5");
+            p.setEmail("13233@isel.pt");
+            p.setUsername("t5423e3");
             p.setState("Ativo");
             p.setId(maxId);
             Regions r = new Regions();
@@ -57,7 +58,7 @@ public class BLService
             ps.setNumGamesPlayed(0);
             ps.setTotalPoints(0);
             ps.setPlayer(p);
-            p.setPlayerStats(ps);
+            p.setPlayerStat(ps);
             em.persist(p);
             em.getTransaction().commit();
 
@@ -65,6 +66,7 @@ public class BLService
         catch(Exception e)
         {
             System.out.println("[::ERROR::]" + e.getMessage());
+            em.getTransaction().rollback();
             throw e;
         }
         finally
@@ -101,6 +103,7 @@ public class BLService
         catch(Exception e)
         {
             System.out.println("[::ERROR::]" + e.getMessage());
+            em.getTransaction().rollback();
             throw e;
         }
         finally
@@ -237,7 +240,7 @@ public class BLService
 
 
     @SuppressWarnings("unchecked")
-    public  void testI1() throws Exception // Alinea D
+    public  void testIniciarConversa() throws Exception // Alinea D
     {
         //ban player
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
@@ -248,10 +251,8 @@ public class BLService
             em.getTransaction().begin();
 
             StoredProcedureQuery query = em.createStoredProcedureQuery("function_iniciar_conversa_logica");
-            query.registerStoredProcedureParameter(1,
-                    Integer.class, ParameterMode.IN);
-            query.registerStoredProcedureParameter( 2, String.class,
-                    ParameterMode.IN);
+            query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+            query.registerStoredProcedureParameter( 2, String.class, ParameterMode.IN);
             query.registerStoredProcedureParameter(3, Integer.class, ParameterMode.OUT);
             query.setParameter(1, 3);
             query.setParameter(2, "new function");
@@ -274,7 +275,7 @@ public class BLService
         }
     }
 
-    public  void testJ1() throws Exception // Alinea D
+    public  void testJuntarConversa() throws Exception // Alinea D
     {
         //ban player
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
@@ -285,8 +286,38 @@ public class BLService
             em.getTransaction().begin();
             //suposto chamar create_player mas da erro.
             Query query = em.createNativeQuery("CALL juntar_conversa_logica(?,?)");
-            query.setParameter(1, 2);
-            query.setParameter(2, 3);
+            query.setParameter(1, 1);
+            query.setParameter(2, 4);
+            query.executeUpdate();
+
+            em.getTransaction().commit();
+
+        }
+        catch(Exception e)
+        {
+            System.out.println("[::ERROR::]" + e.getMessage());
+            throw e;
+        }
+        finally
+        {
+            em.close();
+            emf.close();
+        }
+    }
+
+    public  void testenviarMensagem() throws Exception // Alinea D
+    {
+        //ban player
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
+        EntityManager em = emf.createEntityManager();
+        try
+        {
+            System.out.println("Criar com o procedimento enviar_mensagem_logica");
+            em.getTransaction().begin();
+            //suposto chamar create_player mas da erro.
+            Query query = em.createNativeQuery("CALL enviar_mensagem_logica(?,?)");
+            query.setParameter(1, 3);
+            query.setParameter(2, 1);
             query.executeUpdate();
 
             em.getTransaction().commit();
