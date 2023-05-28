@@ -37,11 +37,14 @@ public class App
 			() -> {try { srv.testT1(); } catch(Exception e) {}},
 			() -> {try { srv.testT2(); } catch(Exception e) {}},
 			() -> {try { srv.testT3(); } catch(Exception e) {}},
-			() -> {try { srv.testD1(); } catch(Exception e) {}},
-			() -> {try { srv.testD2(); } catch(Exception e) {}},
-			() -> {try { srv.testD3(); } catch(Exception e) {}},
+			() -> {try { srv.testT4(); } catch(Exception e) {}},
+			() -> {try { srv.testT5(); } catch(Exception e) {}},
+			() -> {try { srv.testCriarJogador(); } catch(Exception e) {}},
+			() -> {try { srv.testBanirJogador(); } catch(Exception e) {}},
+			() -> {try { srv.testDesativarJogador(); } catch(Exception e) {}},
 			() -> {try { srv.testIniciarConversa(); } catch(Exception e) {}},
-			() -> {try { srv.testJuntarConversa(); } catch(Exception e) {}}
+			() -> {try { srv.testJuntarConversa(); } catch(Exception e) {}},
+			() -> {try { srv.testEnviarMensagem(); } catch(Exception e) {}}
       };
 
    	Scanner imp = new Scanner(System.in );

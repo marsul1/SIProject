@@ -1,7 +1,12 @@
 package model.game;
 
 import jakarta.persistence.*;
+import model.conversation.Message;
+import model.matches.Match;
+import model.players.PlayerPurchase;
 import model.players.PlayerStat;
+
+import java.util.List;
 
 @Entity
 @Table(name="game")
@@ -20,6 +25,13 @@ public class Game /*implements Serializable*/ {
 
     @OneToOne(mappedBy="game",cascade=CascadeType.PERSIST)
     private GameStat gameStat;
+
+    @OneToMany(mappedBy="game",cascade=CascadeType.PERSIST, orphanRemoval=true)
+    private List<Match> matches;
+
+    @OneToMany(mappedBy="game",cascade=CascadeType.PERSIST)
+    private List<PlayerPurchase> playerPurchase;
+
     public Game() {
     }
 
@@ -56,4 +68,11 @@ public class Game /*implements Serializable*/ {
         this.gameStat = gameStat;
     }
 
+    public List<PlayerPurchase> getPlayerPurchase() {
+        return this.playerPurchase;
+    }
+
+    public void setPlayerPurchase(List<PlayerPurchase> playerPurchase) {
+        this.playerPurchase = playerPurchase;
+    }
 }

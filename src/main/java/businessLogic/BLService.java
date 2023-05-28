@@ -18,10 +18,17 @@ import jakarta.persistence.*;
 import model.conversation.Conversation;
 import model.game.Game;
 import model.game.GameStat;
+import model.matches.Match;
+import model.matches.MatchPK;
+import model.players.PlayerPurchase;
+import model.players.PlayerPurchasePK;
 import model.players.PlayerStat;
 import model.players.Player;
 import model.regions.Regions;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
@@ -146,7 +153,85 @@ public class BLService
     }
 
     @SuppressWarnings("unchecked")
-    public  void testD1() throws Exception // Alinea D
+    public  void testT4() throws Exception //
+    {
+        //ban player
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
+        EntityManager em = emf.createEntityManager();
+        try
+        {
+            // Criar match
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT MAX(m.id.match_number) FROM Match m");
+            Integer last_match_number = (Integer) query.getSingleResult();
+            MatchPK matchPK = new MatchPK();
+            matchPK.setMatchNumber(last_match_number+1);
+            matchPK.setGameRef("G1");
+            Match m = new Match();
+            Game game = em.find(Game.class, "G1");
+            m.setStartTime(Timestamp.valueOf( LocalDateTime.now()));
+            m.setGame(game);
+            m.setId(matchPK);
+            Regions region = new Regions();
+            region.setName("Europe");
+            m.setRegion(region);
+            em.persist(m);
+            em.getTransaction().commit();
+
+        }
+        catch(Exception e)
+        {
+            System.out.println("[::ERROR::]" + e.getMessage());
+            throw e;
+        }
+        finally
+        {
+            em.close();
+            emf.close();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public  void testT5() throws Exception //
+    {
+        //ban player
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
+        EntityManager em = emf.createEntityManager();
+        try
+        {
+            // criar conversa dado um jogador
+            em.getTransaction().begin();
+
+            PlayerPurchase ps = new PlayerPurchase();
+            ps.setPrice(BigDecimal.valueOf(100.00));
+            ps.setPurchaseDate(Timestamp.valueOf( LocalDateTime.now()));
+            PlayerPurchasePK psPK = new PlayerPurchasePK();
+            psPK.setPlayerId(7);
+            psPK.setGameRef("G1");
+            //  ps.setId(psPK);
+            Player player = em.find(Player.class, 7);
+            Game game = em.find(Game.class, "G1");
+            ps.setGame(game);
+            ps.setPlayer(player);
+
+            em.persist(ps);
+            em.getTransaction().commit();
+
+        }
+        catch(Exception e)
+        {
+            System.out.println("[::ERROR::]" + e.getMessage());
+            throw e;
+        }
+        finally
+        {
+            em.close();
+            emf.close();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public  void testCriarJogador() throws Exception // Alinea D
     {
         //create player
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
@@ -179,7 +264,7 @@ public class BLService
     }
 
     @SuppressWarnings("unchecked")
-    public  void testD2() throws Exception // Alinea D
+    public  void testBanirJogador() throws Exception // Alinea D
     {
         //ban player
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
@@ -209,7 +294,7 @@ public class BLService
     }
 
     @SuppressWarnings("unchecked")
-    public  void testD3() throws Exception // Alinea D
+    public  void testDesativarJogador() throws Exception // Alinea D
     {
         //ban player
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
@@ -305,7 +390,7 @@ public class BLService
         }
     }
 
-    public  void testenviarMensagem() throws Exception // Alinea D
+    public  void testEnviarMensagem() throws Exception // Alinea D
     {
         //ban player
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
@@ -315,9 +400,10 @@ public class BLService
             System.out.println("Criar com o procedimento enviar_mensagem_logica");
             em.getTransaction().begin();
             //suposto chamar create_player mas da erro.
-            Query query = em.createNativeQuery("CALL enviar_mensagem_logica(?,?)");
+            Query query = em.createNativeQuery("CALL enviar_mensagem_logica(?,?,?)");
             query.setParameter(1, 3);
             query.setParameter(2, 1);
+            query.setParameter(3,"Autodominio é muito importante");
             query.executeUpdate();
 
             em.getTransaction().commit();

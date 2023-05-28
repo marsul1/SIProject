@@ -2,11 +2,8 @@ package model.players;
 
 import jakarta.persistence.*;
 import model.conversation.Conversation;
-//import model.conversation.Messages;
-//import model.conversation.Message;
 import model.conversation.Message;
 import model.regions.*;
-import org.glassfish.jaxb.core.marshaller.Messages;
 
 import java.util.List;
 import java.util.Set;
@@ -31,7 +28,7 @@ public class Player {
 
     @ManyToOne
     @JoinColumn(name="region_name", referencedColumnName = "name")
-    private Regions region_name;
+    private Regions region;
 
     @OneToOne(mappedBy="player",cascade=CascadeType.PERSIST)
     private PlayerStat playerStat;
@@ -48,6 +45,10 @@ public class Player {
             @JoinColumn(name="conversation_id", referencedColumnName="id")
     })
     private List<Message> messages;
+
+    @OneToMany(mappedBy="player",cascade=CascadeType.PERSIST)
+    private List<PlayerPurchase> playerPurchases;
+
 
     public Player() {
     }
@@ -86,11 +87,11 @@ public class Player {
     }
 
     public Regions getRegion() {
-        return this.region_name;
+        return this.region;
     }
 
     public void setRegion(Regions pRegion) {
-        this.region_name = pRegion;
+        this.region = pRegion;
     }
 
 
@@ -133,5 +134,21 @@ public class Player {
 
     public void setPlayerStat(PlayerStat playerStat) {
         this.playerStat = playerStat;
+    }
+
+    public List<PlayerPurchase> getPlayerPurchases() {
+        return playerPurchases;
+    }
+
+    public void setPlayerPurchases(List<PlayerPurchase> playerPurchases) {
+        this.playerPurchases = playerPurchases;
+    }
+
+    public void addPlayerPurchases(PlayerPurchase playerPurchase) {
+        this.playerPurchases.add(playerPurchase);
+    }
+
+    public void removePlayerPurchases(PlayerPurchase playerPurchase) {
+        this.playerPurchases.remove(playerPurchase);
     }
 }

@@ -7,7 +7,7 @@ import java.util.Objects;
 @Embeddable
 public class MessagePK implements Serializable {
 
-   // @Column( insertable=false, updatable=false)
+    @Column( insertable=false, updatable=false)
     private int conversation_id;
 
     private int massage_number;
