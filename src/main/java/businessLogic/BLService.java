@@ -58,7 +58,7 @@ public class BLService
             p.setEmail("13@isel.pt");
             p.setUsername("t53e3");
             p.setState("Ativo");
-            p.setId(maxId);
+            p.setId(maxId +1);
             Regions r = new Regions();
             r.setName("Europe");
             p.setRegion(r);
@@ -93,7 +93,7 @@ public class BLService
         EntityManager em = emf.createEntityManager();
         try
         {
-            // Cria um GAME e consequentemente uma nova linha em game_stats com tudo a 0
+            System.out.println("Criar player");
             em.getTransaction().begin();
 
             Game g = new Game();
