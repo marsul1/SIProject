@@ -1,4 +1,4 @@
-package model.matches;
+package model.badges;
 
 import jakarta.persistence.*;
 
@@ -6,13 +6,14 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class MatchPK implements Serializable{
+public class BadgePK implements Serializable {
 
+    @Column(name = "game_ref", insertable=true, updatable=false)
     private String game_ref;
 
-    private Integer match_number;
+    private String name;
 
-    public MatchPK() {
+    public BadgePK() {
 
     }
     public String getGameRef() {
@@ -23,11 +24,11 @@ public class MatchPK implements Serializable{
     }
 
 
-    public Integer getMatchNumber() {
-        return this.match_number;
+    public String getBadgeName() {
+        return this.name;
     }
-    public void setMatchNumber(Integer matchNumber) {
-        this.match_number = matchNumber;
+    public void setBadgeName(String bName) {
+        this.name = bName;
     }
 
     @Override
@@ -35,13 +36,13 @@ public class MatchPK implements Serializable{
         if (this == other) {
             return true;
         }
-        if (!(other instanceof MatchPK)) {
+        if (!(other instanceof BadgePK)) {
             return false;
         }
-        MatchPK castOther = (MatchPK)other;
+        BadgePK castOther = (BadgePK)other;
         return
-                (this.match_number == castOther.match_number)
-                        && this.game_ref.equals(castOther.game_ref);
+                (this.game_ref == castOther.game_ref)
+                        && this.name.equals(castOther.name);
     }
 
     @Override

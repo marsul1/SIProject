@@ -34,17 +34,58 @@ public class App
 	public static void main( String[] args ) throws Exception
    {   BLService srv = new BLService();
    	ITest tests[] = new ITest[] {
-			() -> {try { srv.testT1(); } catch(Exception e) {}},
-			() -> {try { srv.testT2(); } catch(Exception e) {}},
-			() -> {try { srv.testT3(); } catch(Exception e) {}},
-			() -> {try { srv.testT4(); } catch(Exception e) {}},
-			() -> {try { srv.testT5(); } catch(Exception e) {}},
-			() -> {try { srv.testCriarJogador(); } catch(Exception e) {}},
-			() -> {try { srv.testBanirJogador(); } catch(Exception e) {}},
-			() -> {try { srv.testDesativarJogador(); } catch(Exception e) {}},
-			() -> {try { srv.testIniciarConversa(); } catch(Exception e) {}},
-			() -> {try { srv.testJuntarConversa(); } catch(Exception e) {}},
-			() -> {try { srv.testEnviarMensagem(); } catch(Exception e) {}}
+			() -> {try { srv.testT1(); } catch(Exception e) {
+				System.out.println(e.getMessage());
+			}},
+			() -> {try { srv.testT2(); } catch(Exception e) {
+				System.out.println(e.getMessage());
+			}},
+			() -> {try { srv.testT3(); } catch(Exception e) {
+				System.out.println(e.getMessage());
+			}},
+			() -> {try { srv.testT4(); } catch(Exception e) {
+				System.out.println(e.getMessage());
+			}},
+			() -> {try { srv.testT5(); } catch(Exception e) {
+				System.out.println(e.getMessage());
+			}},
+			() -> {try { srv.testT6(); } catch(Exception e) {
+				System.out.println(e.getMessage());
+			}},
+			() -> {try { srv.testT7(); } catch(Exception e) {
+				System.out.println(e.getMessage());
+			}},
+			() -> {try { srv.testCriarJogador("bernadorserra@isel.pt", "bernardo", "Europe"); } catch(Exception e) {
+				System.out.println(e.getMessage()); // 8
+			}},
+			() -> {try { srv.testBanirJogador(3); } catch(Exception e) {
+				System.out.println(e.getMessage());// 9
+			}},
+			() -> {try { srv.testDesativarJogador(2); } catch(Exception e) {
+				System.out.println(e.getMessage());// 10
+			}},
+			() -> {try { srv.testTotalPontosJogador(1); } catch(Exception e) {
+				System.out.println(e.getMessage()); // 11
+			}},
+			() -> {try { srv.testJogosJogador(1); } catch(Exception e) {
+				System.out.println(e.getMessage()); // 12
+			}},
+			() -> {try { srv.testPontosJogoPorJogador("G1"); } catch(Exception e) {
+				System.out.println(e.getMessage());// 13
+			}},
+			() -> {try { srv.testAssociarCracha(1,"G1", "strong"); } catch(Exception e) {
+				System.out.println(e.getMessage());// 14
+			}},
+			() -> {try { srv.testIniciarConversa(1, "First Conversation"); } catch(Exception e) {
+				System.out.println(e.getMessage());// 15
+			}},
+			() -> {try { srv.testJuntarConversa(2,1); } catch(Exception e) {
+				System.out.println(e.getMessage());// 16
+			}},
+			() -> {try { srv.testEnviarMensagem(1,1,
+					"Minha primeira mensagem"); } catch(Exception e) {   // 17
+				System.out.println(e.getMessage());
+			}}
       };
 
    	Scanner imp = new Scanner(System.in );

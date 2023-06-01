@@ -25,3 +25,5 @@ BEGIN
     RETURN total_jogos_multi + total_jogos_single;
 END;
 $$ LANGUAGE plpgsql;
+
+select total_jogos_jogador (1);

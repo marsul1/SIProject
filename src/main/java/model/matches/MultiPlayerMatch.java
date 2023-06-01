@@ -1,6 +1,10 @@
 package model.matches;
 
 import jakarta.persistence.*;
+import model.players.PlayerPurchase;
+import model.players.PlayerPurchasePK;
+
+import java.util.List;
 
 @Entity
 @Table(name="multi_player_match")
@@ -12,7 +16,15 @@ public class MultiPlayerMatch {
 
     private String state;
 
+    @OneToOne
+    @JoinColumns({
+            @JoinColumn(name="match_number", referencedColumnName="match_number", insertable = false, updatable = false),
+            @JoinColumn(name="game_ref", referencedColumnName="game_ref", insertable = false, updatable = false)
+    })
+    private Match match;
 
+    @OneToMany(mappedBy="multiPlayerMatch",cascade=CascadeType.PERSIST)
+    private List<PlaysMulti> playsMultis;
     public MultiPlayerMatch() {
     }
 
@@ -31,5 +43,21 @@ public class MultiPlayerMatch {
 
     public void setState(String mState) {
         this.state = mState;
+    }
+
+    public Match getMatch() {
+        return match;
+    }
+
+    public void setMatch(Match match) {
+        this.match = match;
+    }
+
+    public List<PlaysMulti> getPlaysMultis() {
+        return playsMultis;
+    }
+
+    public void setPlaysMultis(List<PlaysMulti> playsMultis) {
+        this.playsMultis = playsMultis;
     }
 }

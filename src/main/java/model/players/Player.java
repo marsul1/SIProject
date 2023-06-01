@@ -1,8 +1,11 @@
 package model.players;
 
 import jakarta.persistence.*;
+import model.badges.Badge;
 import model.conversation.Conversation;
 import model.conversation.Message;
+import model.matches.PlaysMulti;
+import model.matches.SinglePlayerMatch;
 import model.regions.*;
 
 import java.util.List;
@@ -49,6 +52,20 @@ public class Player {
     @OneToMany(mappedBy="player",cascade=CascadeType.PERSIST)
     private List<PlayerPurchase> playerPurchases;
 
+    @ManyToMany(cascade=CascadeType.REMOVE)
+    @JoinTable(name="player_badge",
+            joinColumns=@JoinColumn(name="player_id"),
+            inverseJoinColumns = {
+                    @JoinColumn(name = "badge_name", referencedColumnName = "name"),
+                    @JoinColumn(name = "game_ref", referencedColumnName = "game_ref")
+            }
+    )
+    private Set<Badge> badges;
+    @OneToMany(mappedBy="player",cascade=CascadeType.PERSIST)
+    private List<SinglePlayerMatch> singlePlayerMatches;
+
+    @OneToMany(mappedBy="player",cascade=CascadeType.PERSIST)
+    private List<PlaysMulti> playsMultis;
 
     public Player() {
     }
@@ -150,5 +167,37 @@ public class Player {
 
     public void removePlayerPurchases(PlayerPurchase playerPurchase) {
         this.playerPurchases.remove(playerPurchase);
+    }
+
+    public List<SinglePlayerMatch> getSinglePlayerMatches() {
+        return singlePlayerMatches;
+    }
+
+    public void setSinglePlayerMatches(List<SinglePlayerMatch> singlePlayerMatches) {
+        this.singlePlayerMatches = singlePlayerMatches;
+    }
+
+    public void addSinglePlayerMatch(SinglePlayerMatch singlePlayerMatch) {
+        this.singlePlayerMatches.add(singlePlayerMatch);
+    }
+
+    public void removeSinglePlayerMatch(SinglePlayerMatch singlePlayerMatch) {
+        this.singlePlayerMatches.remove(singlePlayerMatch);
+    }
+
+    public List<PlaysMulti> getPlaysMultis() {
+        return playsMultis;
+    }
+
+    public void setPlaysMultis(List<PlaysMulti> playsMultis) {
+        this.playsMultis = playsMultis;
+    }
+
+    public void addPlaysMulti(PlaysMulti singlePlayerMatch) {
+        this.playsMultis.add(singlePlayerMatch);
+    }
+
+    public void removePlaysMulti(PlaysMulti singlePlayerMatch) {
+        this.singlePlayerMatches.remove(singlePlayerMatch);
     }
 }

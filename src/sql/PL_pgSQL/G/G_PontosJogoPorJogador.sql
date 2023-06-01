@@ -29,4 +29,5 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+select pontos_jogo_por_jogador('G3');
 	

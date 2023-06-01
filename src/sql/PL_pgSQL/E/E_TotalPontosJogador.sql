@@ -24,3 +24,5 @@ BEGIN
 	RETURN total_pontos_multi + total_pontos_single;
 END;
 $$ LANGUAGE plpgsql;
+
+select total_pontos_jogador(1);

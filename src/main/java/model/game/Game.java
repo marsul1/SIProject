@@ -1,6 +1,7 @@
 package model.game;
 
 import jakarta.persistence.*;
+import model.badges.Badge;
 import model.conversation.Message;
 import model.matches.Match;
 import model.players.PlayerPurchase;
@@ -31,6 +32,9 @@ public class Game /*implements Serializable*/ {
 
     @OneToMany(mappedBy="game",cascade=CascadeType.PERSIST)
     private List<PlayerPurchase> playerPurchase;
+
+    @OneToMany(mappedBy="game",cascade=CascadeType.PERSIST, orphanRemoval=true)
+    private List<Badge> badges;
 
     public Game() {
     }
@@ -74,5 +78,23 @@ public class Game /*implements Serializable*/ {
 
     public void setPlayerPurchase(List<PlayerPurchase> playerPurchase) {
         this.playerPurchase = playerPurchase;
+    }
+
+    public List<Badge> getBadges() {
+        return badges;
+    }
+
+    public void setBadges(List<Badge> badges) {
+        this.badges = badges;
+    }
+
+    public void addBadge(Badge badge) {
+        getBadges().add(badge);
+        badge.setGame(this);
+    }
+
+    public void removeBadge(Badge badge) {
+        getBadges().remove(badge);
+        badge.setGame(null);
     }
 }

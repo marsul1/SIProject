@@ -47,14 +47,13 @@ CREATE TABLE matches
     end_time     TIMESTAMP,
     game_ref     VARCHAR(10) REFERENCES game (reference),
     region_name  VARCHAR(255) REFERENCES regions (name),
-    PRIMARY KEY (match_number, game_ref),
-    UNIQUE (match_number, game_ref)
+    PRIMARY KEY (match_number, game_ref)
 );
 
 CREATE TABLE single_player_match
 (
     match_number INTEGER,
-	game_ref VARCHAR(10) NOT NULL,
+	game_ref VARCHAR(10),
     player_id INTEGER REFERENCES players(id),
     difficulty INTEGER NOT NULL,
     points INTEGER,
@@ -80,7 +79,7 @@ CREATE TABLE plays_multi
 	game_ref VARCHAR(10) NOT NULL,
     player_id    INTEGER NOT NULL REFERENCES players (id),
     points       INTEGER,
-    PRIMARY KEY (match_number,player_id),
+    PRIMARY KEY (match_number, player_id),
     FOREIGN KEY (match_number, game_ref) REFERENCES matches (match_number, game_ref) ON DELETE CASCADE
 );
 

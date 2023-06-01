@@ -7,17 +7,17 @@ import model.conversation.Message;
 import model.game.Game;
 import model.regions.Regions;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
 @Table(name="matches")
 @NamedQuery(name="Matches.findAll", query="SELECT m FROM Match m")
-public class Match {
+public class Match implements Serializable {
 
     @EmbeddedId
     private MatchPK id;
-
 
     private Timestamp start_time;
 
@@ -32,6 +32,11 @@ public class Match {
     @JoinColumn(name="region_name", referencedColumnName = "name")
     private Regions region;
 
+    @OneToOne(mappedBy="match")
+    private SinglePlayerMatch singlePlayerMatch;
+
+    @OneToOne(mappedBy="match")
+    private MultiPlayerMatch multiPlayerMatch;
     public Match() {
     }
 
@@ -74,5 +79,21 @@ public class Match {
 
     public void setRegion(Regions region) {
         this.region = region;
+    }
+
+    public SinglePlayerMatch getSinglePlayerMatch() {
+        return singlePlayerMatch;
+    }
+
+    public void setSinglePlayerMatch(SinglePlayerMatch singlePlayerMatch) {
+        this.singlePlayerMatch = singlePlayerMatch;
+    }
+
+    public MultiPlayerMatch getMultiPlayerMatch() {
+        return multiPlayerMatch;
+    }
+
+    public void setMultiPlayerMatch(MultiPlayerMatch multiPlayerMatch) {
+        this.multiPlayerMatch = multiPlayerMatch;
     }
 }

@@ -18,8 +18,8 @@ import jakarta.persistence.*;
 import model.conversation.Conversation;
 import model.game.Game;
 import model.game.GameStat;
-import model.matches.Match;
-import model.matches.MatchPK;
+import model.matches.*;
+
 import model.players.PlayerPurchase;
 import model.players.PlayerPurchasePK;
 import model.players.PlayerStat;
@@ -29,6 +29,8 @@ import model.regions.Regions;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -53,8 +55,8 @@ public class BLService
             Query query = em.createQuery("SELECT MAX(p.id) FROM Player p");
             Integer maxId = (Integer) query.getSingleResult();
             Player p = new Player();
-            p.setEmail("13233@isel.pt");
-            p.setUsername("t5423e3");
+            p.setEmail("13@isel.pt");
+            p.setUsername("t53e3");
             p.setState("Ativo");
             p.setId(maxId);
             Regions r = new Regions();
@@ -171,7 +173,7 @@ public class BLService
             Game game = em.find(Game.class, "G1");
             m.setStartTime(Timestamp.valueOf( LocalDateTime.now()));
             m.setGame(game);
-            m.setId(matchPK);
+           // m.setId(matchPK);
             Regions region = new Regions();
             region.setName("Europe");
             m.setRegion(region);
@@ -231,7 +233,132 @@ public class BLService
     }
 
     @SuppressWarnings("unchecked")
-    public  void testCriarJogador() throws Exception // Alinea D
+    public  void testT6() throws Exception //
+    {
+        //ban player
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
+        EntityManager em = emf.createEntityManager();
+        try
+        {
+            // criar conversa dado um jogador
+            em.getTransaction().begin();
+
+            Query query = em.createQuery("SELECT MAX(m.id.match_number) FROM Match m");
+
+            Integer last_match_number = (Integer) query.getSingleResult();
+            if (last_match_number == null ) last_match_number= 0 ;
+            MatchPK matchPK = new MatchPK();
+            matchPK.setMatchNumber(last_match_number+1);
+            matchPK.setGameRef("G1");
+            Match match = new Match();
+            Regions region = new Regions();
+            region.setName("Europe");
+            match.setRegion(region);
+
+            match.setId(matchPK);
+            match.setStartTime(Timestamp.valueOf( LocalDateTime.now()));
+            Game game = em.find(Game.class, "G1");
+            match.setGame(game);
+            SinglePlayerMatch singlePlayerMatch = new SinglePlayerMatch();
+            singlePlayerMatch.setMatch(match);
+            singlePlayerMatch.setDifficulty(4);
+            singlePlayerMatch.setPoints(4000);
+            singlePlayerMatch.setId(matchPK);
+
+            Player player = em.find(Player.class, 1);
+            singlePlayerMatch.setPlayer(player);
+
+            match.setSinglePlayerMatch(singlePlayerMatch);
+            singlePlayerMatch.setMatch(match);
+
+            System.out.println();
+            em.persist(match);
+            em.persist(singlePlayerMatch);
+            em.getTransaction().commit();
+
+        }
+        catch(Exception e)
+        {
+            System.out.println("[::ERROR::]" + e.getMessage());
+            throw e;
+        }
+        finally
+        {
+            em.close();
+            emf.close();
+        }
+    }
+
+    public  void testT7() throws Exception //
+    {
+        //ban player
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
+        EntityManager em = emf.createEntityManager();
+        try
+        {
+            em.getTransaction().begin();
+
+            Query query = em.createQuery("SELECT MAX(m.id.match_number) FROM Match m");
+
+            Integer last_match_number = (Integer) query.getSingleResult();
+            if (last_match_number == null ) last_match_number= 0 ;
+            MatchPK matchPK = new MatchPK();
+            matchPK.setMatchNumber(last_match_number+1);
+            Game game = em.find(Game.class, "G3");
+            matchPK.setGameRef(game.getReference());
+            Match match = new Match();
+            Regions region = new Regions();
+            region.setName("Europe");
+            match.setRegion(region);
+
+            match.setId(matchPK);
+            match.setStartTime(Timestamp.valueOf( LocalDateTime.now()));
+
+            match.setGame(game);
+            MultiPlayerMatch multiPlayerMatch = new MultiPlayerMatch();
+            multiPlayerMatch.setMatch(match);
+            multiPlayerMatch.setState("Terminada");
+            multiPlayerMatch.setId(matchPK);
+
+            PlaysMulti playsMulti1 = new PlaysMulti();
+            PlaysMultiPK playsMulti1PK =new PlaysMultiPK();
+            Player player1 = em.find(Player.class, 1);
+            playsMulti1.setId(playsMulti1PK);
+            playsMulti1.setPlayer(player1);
+            playsMulti1.setPoints(5000);
+            playsMulti1.setMultiPlayerMatch(multiPlayerMatch);
+
+            PlaysMulti playsMulti2 = new PlaysMulti();
+            PlaysMultiPK playsMulti2PK =new PlaysMultiPK();
+            Player player2 = em.find(Player.class, 2);
+            playsMulti2.setId(playsMulti2PK);
+            playsMulti2.setPlayer(player2);
+            playsMulti2.setPoints(5000);
+            playsMulti2.setMultiPlayerMatch(multiPlayerMatch);
+
+            multiPlayerMatch.setPlaysMultis(List.of(playsMulti1,playsMulti2));
+            match.setMultiPlayerMatch(multiPlayerMatch);
+            multiPlayerMatch.setMatch(match);
+
+            System.out.println();
+            em.persist(match);
+            em.persist(multiPlayerMatch);
+            em.getTransaction().commit();
+
+        }
+        catch(Exception e)
+        {
+            System.out.println("[::ERROR::]" + e.getMessage());
+            throw e;
+        }
+        finally
+        {
+            em.close();
+            emf.close();
+        }
+    }
+    @SuppressWarnings("unchecked")
+    public  void testCriarJogador(String email, String username, String region ) throws Exception // Alinea D
     {
         //create player
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
@@ -242,9 +369,9 @@ public class BLService
             em.getTransaction().begin();
             //suposto chamar create_player mas da erro.
             Query query = em.createNativeQuery("CALL create_player_logic(?, ?, ?)");
-            query.setParameter(1, "bernardoss@isel.pt");
-            query.setParameter(2, "12234");
-            query.setParameter(3, "Europe");
+            query.setParameter(1, email);
+            query.setParameter(2, username);
+            query.setParameter(3, region);
 
             query.executeUpdate();
 
@@ -264,7 +391,7 @@ public class BLService
     }
 
     @SuppressWarnings("unchecked")
-    public  void testBanirJogador() throws Exception // Alinea D
+    public  void testBanirJogador(int playerID) throws Exception // Alinea D
     {
         //ban player
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
@@ -275,7 +402,7 @@ public class BLService
             em.getTransaction().begin();
             //suposto chamar create_player mas da erro.
             Query query = em.createNativeQuery("CALL ban_player_logic(?)");
-            query.setParameter(1, 1);
+            query.setParameter(1, playerID);
             query.executeUpdate();
 
             em.getTransaction().commit();
@@ -294,7 +421,7 @@ public class BLService
     }
 
     @SuppressWarnings("unchecked")
-    public  void testDesativarJogador() throws Exception // Alinea D
+    public  void testDesativarJogador(int playerID) throws Exception // Alinea D
     {
         //ban player
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
@@ -305,7 +432,7 @@ public class BLService
             em.getTransaction().begin();
             //suposto chamar create_player mas da erro.
             Query query = em.createNativeQuery("CALL deactivate_player_logic(?)");
-            query.setParameter(1, 2);
+            query.setParameter(1, playerID);
             query.executeUpdate();
 
             em.getTransaction().commit();
@@ -323,9 +450,143 @@ public class BLService
         }
     }
 
+    @SuppressWarnings("unchecked")
+    public  void testTotalPontosJogador(int playerID) throws Exception // Alinea D
+    {
+        //ban player
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
+        EntityManager em = emf.createEntityManager();
+        try
+        {
+            System.out.println("total_pontos_jogador");
+            em.getTransaction().begin();
+
+            StoredProcedureQuery query = em.createStoredProcedureQuery("total_pontos_jogador");
+            query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+            query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.OUT);
+            query.setParameter(1, playerID);
+            query.execute();
+
+            Integer returnValue = (Integer) query.getOutputParameterValue(2); // Retrieve the return value
+            System.out.println("Return value: " + returnValue);
+
+            em.getTransaction().commit();
+        }
+        catch(Exception e)
+        {
+            System.out.println("[::ERROR::]" + e.getMessage());
+            throw e;
+        }
+        finally
+        {
+            em.close();
+            emf.close();
+        }
+    }
 
     @SuppressWarnings("unchecked")
-    public  void testIniciarConversa() throws Exception // Alinea D
+    public  void testJogosJogador(int playerID) throws Exception // Alinea D
+    {
+        //ban player
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
+        EntityManager em = emf.createEntityManager();
+        try
+        {
+            System.out.println("total_jogos_jogador");
+            em.getTransaction().begin();
+
+            StoredProcedureQuery query = em.createStoredProcedureQuery("total_jogos_jogador");
+            query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+            query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.OUT);
+            query.setParameter(1, playerID);
+            query.execute();
+
+            Integer returnValue = (Integer) query.getOutputParameterValue(2); // Retrieve the return value
+            System.out.println("Return value: " + returnValue);
+
+            em.getTransaction().commit();
+        }
+        catch(Exception e)
+        {
+            System.out.println("[::ERROR::]" + e.getMessage());
+            throw e;
+        }
+        finally
+        {
+            em.close();
+            emf.close();
+        }
+    }
+
+    public  void testPontosJogoPorJogador(String gameRef) throws Exception // Alinea D
+    {
+        //ban player
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
+        EntityManager em = emf.createEntityManager();
+        try
+        {
+            System.out.println("pontos_jogo_por_jogador");
+            em.getTransaction().begin();
+
+            StoredProcedureQuery query = em.createStoredProcedureQuery("pontos_jogo_por_jogador");
+            query.registerStoredProcedureParameter(1, String.class, ParameterMode.IN);
+            query.setParameter(1, gameRef);
+            query.execute();
+
+            List<Object[]> resultList = query.getResultList();
+            for (Object[] result : resultList) {
+                Integer playerId = (Integer) result[0];
+                Long totalPoints = (Long) result[1];
+                System.out.println("Player ID: " + playerId + ", Total Points: " + totalPoints);
+            }
+
+            em.getTransaction().commit();
+        }
+        catch(Exception e)
+        {
+            System.out.println("[::ERROR::]" + e.getMessage());
+            throw e;
+        }
+        finally
+        {
+            em.close();
+            emf.close();
+        }
+    }
+
+    public  void testAssociarCracha(int playerID, String gameRef, String badgeName) throws Exception // Alinea D
+    {
+        //ban player
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
+        EntityManager em = emf.createEntityManager();
+        try
+        {
+            System.out.println("associar_cracha_logic");
+            em.getTransaction().begin();
+
+            Query query = em.createNativeQuery("CALL associar_cracha_logic(?,?,?)");
+            query.setParameter(1, playerID);
+            query.setParameter(2, gameRef);
+            query.setParameter(3, badgeName);
+            query.executeUpdate();
+
+            em.getTransaction().commit();
+        }
+        catch(Exception e)
+        {
+            System.out.println("[::ERROR::]" + e.getMessage());
+            throw e;
+        }
+        finally
+        {
+            em.close();
+            emf.close();
+        }
+    }
+
+
+    @SuppressWarnings("unchecked")
+    public  void testIniciarConversa(int playerID, String conversationName) throws Exception // Alinea D
     {
         //ban player
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
@@ -339,8 +600,8 @@ public class BLService
             query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
             query.registerStoredProcedureParameter( 2, String.class, ParameterMode.IN);
             query.registerStoredProcedureParameter(3, Integer.class, ParameterMode.OUT);
-            query.setParameter(1, 3);
-            query.setParameter(2, "new function");
+            query.setParameter(1, playerID);
+            query.setParameter(2, conversationName);
             query.execute();
 
             Integer returnValue = (Integer) query.getOutputParameterValue(3); // Retrieve the return value
@@ -360,7 +621,7 @@ public class BLService
         }
     }
 
-    public  void testJuntarConversa() throws Exception // Alinea D
+    public  void testJuntarConversa(int playerID, int conversationID) throws Exception // Alinea D
     {
         //ban player
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
@@ -371,8 +632,8 @@ public class BLService
             em.getTransaction().begin();
             //suposto chamar create_player mas da erro.
             Query query = em.createNativeQuery("CALL juntar_conversa_logica(?,?)");
-            query.setParameter(1, 1);
-            query.setParameter(2, 4);
+            query.setParameter(1, playerID);
+            query.setParameter(2, conversationID);
             query.executeUpdate();
 
             em.getTransaction().commit();
@@ -390,7 +651,7 @@ public class BLService
         }
     }
 
-    public  void testEnviarMensagem() throws Exception // Alinea D
+    public  void testEnviarMensagem(int playerID, int conversationID,  String message) throws Exception // Alinea D
     {
         //ban player
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
@@ -401,9 +662,9 @@ public class BLService
             em.getTransaction().begin();
             //suposto chamar create_player mas da erro.
             Query query = em.createNativeQuery("CALL enviar_mensagem_logica(?,?,?)");
-            query.setParameter(1, 3);
-            query.setParameter(2, 1);
-            query.setParameter(3,"Autodominio é muito importante");
+            query.setParameter(1, playerID);
+            query.setParameter(2, conversationID);
+            query.setParameter(3,message);
             query.executeUpdate();
 
             em.getTransaction().commit();
