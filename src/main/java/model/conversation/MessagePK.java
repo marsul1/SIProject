@@ -23,7 +23,7 @@ public class MessagePK implements Serializable {
     }
 
 
-    public int getMassageNumber() {
+    public int getMessageNumber() {
         return this.massage_number;
     }
     public void setMassageNumber(int massageNumber) {
@@ -47,5 +47,9 @@ public class MessagePK implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(conversation_id);
+    }
+
+    public String toString() {
+        return "MessagePK(" + getMessageNumber() + ", " + getConversationId() + ")";
     }
 }

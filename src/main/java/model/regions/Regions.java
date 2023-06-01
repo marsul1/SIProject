@@ -63,4 +63,8 @@ public class Regions {
     public void removeMatch(Match match)  {
         this.matches.remove(match);
     }
+
+    public String toString() {
+        return "Region(" + getName() + ")";
+    }
 }

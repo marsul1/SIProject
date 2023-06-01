@@ -48,4 +48,8 @@ public class MatchPK implements Serializable{
     public int hashCode() {
         return Objects.hash(game_ref);
     }
+
+    public String toString() {
+        return "MatchPK(" + getMatchNumber() + ", " + getGameRef() + ")";
+    }
 }

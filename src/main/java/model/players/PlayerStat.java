@@ -68,5 +68,7 @@ public class PlayerStat {
         this.player = player;
     }
 
-
+    public String toString() {
+        return "PlayerStat(" + getId() + ", " + getPlayer().getId() + ", " + getNumMatches() + ", " + getNumGamesPlayed() + ", " + getTotalPoints() + ")";
+    }
 }

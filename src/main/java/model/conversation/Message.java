@@ -59,5 +59,7 @@ public class Message {
         this.conversation = conversation;
     }
 
-
+    public String toString() {
+        return "Message(" + getId().getMessageNumber() + ", " + "sendTime??" + ", " + "text??" + ", " + getId().getConversationId() + ", " + getPlayer().getId() + ")";
+    }
 }

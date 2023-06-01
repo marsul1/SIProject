@@ -60,4 +60,8 @@ public class PlaysMulti {
     public void setMultiPlayerMatch(MultiPlayerMatch multiPlayerMatch) {
         this.multiPlayerMatch = multiPlayerMatch;
     }
+
+    public String toString() {
+        return "PlaysMulti(" + getId().getMatchPK().getMatchNumber() + ", " + getId().getMatchPK().getGameRef() + ", " + getPlayer().getId() + ", " + getPoints() + ")";
+    }
 }

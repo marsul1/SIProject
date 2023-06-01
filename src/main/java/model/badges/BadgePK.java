@@ -49,4 +49,8 @@ public class BadgePK implements Serializable {
     public int hashCode() {
         return Objects.hash(game_ref);
     }
+
+    public String toString() {
+        return "BadgePK(" + getBadgeName() + ", " + getGameRef() + ")";
+    }
 }

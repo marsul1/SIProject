@@ -76,4 +76,8 @@ public class Conversation {
         getMessages().remove(message);
         message.setConversation(null);
     }
+
+    public String toString() {
+        return "Conversation(" + getId() + ", " + getName() + ")";
+    }
 }

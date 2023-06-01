@@ -17,6 +17,7 @@ import java.util.Scanner;
 
 
 import businessLogic.*;
+import utils.PrintTestsMessages;
 
 
 /**
@@ -33,7 +34,7 @@ public class App
    @SuppressWarnings("unchecked")
 	public static void main( String[] args ) throws Exception
    {   BLService srv = new BLService();
-   	ITest tests[] = new ITest[] {
+   	ITest[] tests = new ITest[] {
 			() -> {try { srv.testT1(); } catch(Exception e) {
 				System.out.println(e.getMessage());
 			}},
@@ -88,12 +89,12 @@ public class App
 			}}
       };
 
-   	Scanner imp = new Scanner(System.in );
-   	System.out.printf("Escolha um teste (1-%d)? ",tests.length);
-   	int option = imp.nextInt();
-   	if (option >= 1 && option <= tests.length)
-   		tests[--option].test();
-
+	   Scanner imp = new Scanner(System.in);
+	   PrintTestsMessages.buildTestMessages();
+	   System.out.print("Escolha um teste (1-" + tests.length + ")? ");
+	   int option = imp.nextInt();
+	   if (option >= 1 && option <= tests.length)
+		   tests[--option].test();
    }
 }
 

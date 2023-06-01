@@ -96,4 +96,8 @@ public class Match implements Serializable {
     public void setMultiPlayerMatch(MultiPlayerMatch multiPlayerMatch) {
         this.multiPlayerMatch = multiPlayerMatch;
     }
+
+    public String toString() {
+        return "Match(" + getId().getMatchNumber() + ", " + getStartTime() + ", " + getEndTime() + ", " + getId().getGameRef() + ", " + getRegion().getName() + ")";
+    }
 }

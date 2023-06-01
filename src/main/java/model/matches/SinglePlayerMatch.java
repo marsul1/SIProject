@@ -69,4 +69,8 @@ public class SinglePlayerMatch  implements Serializable {
     public void setPlayer(Player player) {
         this.player = player;
     }
+
+    public String toString() {
+        return "SinglePlayerMatch(" + getId().getMatchNumber() + ", " + getId().getGameRef() + ", " + getPlayer().getId() + ", " + getDifficulty() + ", " + getPoints() + ")";
+    }
 }

@@ -1,16 +1,3 @@
-CREATE OR REPLACE PROCEDURE create_player_logic(
-    email VARCHAR(255),
-    username VARCHAR(255),
-    region_name VARCHAR(255)
-)
-AS
-$$
-BEGIN
-    insert into players(email, username, state, region_name)
-    VALUES(email,username,'Ativo',region_name);
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE OR REPLACE PROCEDURE create_player(
     email VARCHAR(255),
     username VARCHAR(255),
@@ -35,6 +22,18 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE PROCEDURE create_player_logic(
+    email VARCHAR(255),
+    username VARCHAR(255),
+    region_name VARCHAR(255)
+)
+AS
+$$
+BEGIN
+    insert into players(email, username, state, region_name)
+    VALUES(email,username,'Ativo',region_name);
+END;
+$$ LANGUAGE plpgsql;
 
 
 

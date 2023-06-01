@@ -25,169 +25,163 @@ import model.players.PlayerPurchasePK;
 import model.players.PlayerStat;
 import model.players.Player;
 import model.regions.Regions;
+import utils.Utils;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
 /**
- * Hello world!
- *
+ * Bl Service
  */
-public class BLService 
-{
-    @SuppressWarnings("unchecked")
-    public  void testT1() throws Exception // Alinea D
-    {
-        // Cria um player e consequentemente uma nova linha em player_stats com tudo a 0
+public class BLService {
 
+    /**
+     * Test for a new player insert and creates the player stats all reseted.
+     */
+    public void testT1() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
         EntityManager em = emf.createEntityManager();
-        try
-        {
-            System.out.println("Criar player");
+        try {
             em.getTransaction().begin();
 
+            int maxId = ((Integer) em.createQuery("SELECT MAX(p.id) FROM Player p").getSingleResult()) + 1;
 
-            Query query = em.createQuery("SELECT MAX(p.id) FROM Player p");
-            Integer maxId = (Integer) query.getSingleResult();
             Player p = new Player();
-            p.setEmail("13@isel.pt");
-            p.setUsername("t53e3");
+            p.setEmail("TestEmail" + maxId + "@isel.pt");
+            p.setUsername("TestName" + maxId);
             p.setState("Ativo");
-            p.setId(maxId +1);
+
             Regions r = new Regions();
             r.setName("Europe");
             p.setRegion(r);
-            PlayerStat ps =new PlayerStat();
+
+            PlayerStat ps = new PlayerStat();
             ps.setNumMatches(0);
             ps.setNumGamesPlayed(0);
             ps.setTotalPoints(0);
             ps.setPlayer(p);
             p.setPlayerStat(ps);
+
             em.persist(p);
             em.getTransaction().commit();
 
-        }
-        catch(Exception e)
-        {
+            Utils.commitSuccess(p, "Player Created");
+        } catch (Exception e) {
             System.out.println("[::ERROR::]" + e.getMessage());
             em.getTransaction().rollback();
             throw e;
-        }
-        finally
-        {
+        } finally {
             em.close();
             emf.close();
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public  void testT2() throws Exception //
-    {
-        //ban player
+    /**
+     * Test for a new game insert and creates the game stats all reseted.
+     */
+    public void testT2() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
         EntityManager em = emf.createEntityManager();
-        try
-        {
-            System.out.println("Criar player");
+        try {
             em.getTransaction().begin();
 
+            int numberGames = ((Long) em.createQuery("SELECT COUNT(g.reference) FROM Game g").getSingleResult()).intValue() + 1;
+
             Game g = new Game();
-            g.setReference("G7");
-            g.setName("TEST1");
-            g.setUrl("www.tests.pt");
-            GameStat gs =new GameStat();
+            g.setReference("TestRef" + numberGames);
+            g.setName("TestName" + numberGames);
+            g.setUrl("www.tests" + numberGames + ".pt");
+
+            GameStat gs = new GameStat();
             gs.setNumMatches(0);
             gs.setTotalPoints(0);
             gs.setNumPlayers(0);
+            gs.setGame(g);
             g.setGameStat(gs);
+
             em.persist(g);
             em.getTransaction().commit();
 
-        }
-        catch(Exception e)
-        {
+            Utils.commitSuccess(g, "Game Created");
+            Utils.commitSuccess(gs, "Game Status Created");
+        } catch (Exception e) {
             System.out.println("[::ERROR::]" + e.getMessage());
             em.getTransaction().rollback();
             throw e;
-        }
-        finally
-        {
+        } finally {
             em.close();
             emf.close();
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public  void testT3() throws Exception //
-    {
-        //ban player
+    /**
+     * Test creating a conversation with a player.
+     * */
+    public void testT3() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
         EntityManager em = emf.createEntityManager();
-        try
-        {
-            // criar conversa dado um jogador
+        try {
             em.getTransaction().begin();
 
             Conversation c = new Conversation();
-            c.setName("Conversation test");
-            Player player = em.find(Player.class, 3);
+            c.setName("Conversation Test");
+
+            Player player = em.find(Player.class, 1);
             Set<Player> players = Set.of(player);
             c.setPlayers(players);
+
             em.persist(c);
             em.getTransaction().commit();
 
-        }
-        catch(Exception e)
-        {
+            Utils.commitSuccess(c, "Conversation Created");
+        } catch (Exception e) {
             System.out.println("[::ERROR::]" + e.getMessage());
+            em.getTransaction().rollback();
             throw e;
-        }
-        finally
-        {
+        } finally {
             em.close();
             emf.close();
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public  void testT4() throws Exception //
-    {
-        //ban player
+    /**
+     * Test for match creation.
+     */
+    public void testT4() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
         EntityManager em = emf.createEntityManager();
-        try
-        {
-            // Criar match
+        try {
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT MAX(m.id.match_number) FROM Match m");
-            Integer last_match_number = (Integer) query.getSingleResult();
+
+            int maxId = ((Integer) em.createQuery("SELECT MAX(m.id.match_number) FROM Match m").getSingleResult()) + 1;
+
             MatchPK matchPK = new MatchPK();
-            matchPK.setMatchNumber(last_match_number+1);
+            matchPK.setMatchNumber(maxId);
             matchPK.setGameRef("G1");
+
             Match m = new Match();
             Game game = em.find(Game.class, "G1");
-            m.setStartTime(Timestamp.valueOf( LocalDateTime.now()));
+            m.setStartTime(Timestamp.valueOf(LocalDateTime.now()));
             m.setGame(game);
-           // m.setId(matchPK);
+
+            m.setId(matchPK);//retirar
+
             Regions region = new Regions();
             region.setName("Europe");
             m.setRegion(region);
             em.persist(m);
+
             em.getTransaction().commit();
 
-        }
-        catch(Exception e)
-        {
+            Utils.commitSuccess(m, "Match Created");
+        } catch (Exception e) {
             System.out.println("[::ERROR::]" + e.getMessage());
+            em.getTransaction().rollback();
             throw e;
-        }
-        finally
-        {
+        } finally {
             em.close();
             emf.close();
         }
@@ -223,6 +217,7 @@ public class BLService
         catch(Exception e)
         {
             System.out.println("[::ERROR::]" + e.getMessage());
+            em.getTransaction().rollback();
             throw e;
         }
         finally
@@ -280,6 +275,7 @@ public class BLService
         catch(Exception e)
         {
             System.out.println("[::ERROR::]" + e.getMessage());
+            em.getTransaction().rollback();
             throw e;
         }
         finally
@@ -349,6 +345,7 @@ public class BLService
         catch(Exception e)
         {
             System.out.println("[::ERROR::]" + e.getMessage());
+            em.getTransaction().rollback();
             throw e;
         }
         finally
@@ -381,6 +378,7 @@ public class BLService
         catch(Exception e)
         {
             System.out.println("[::ERROR::]" + e.getMessage());
+            em.getTransaction().rollback();
             throw e;
         }
         finally
@@ -411,6 +409,7 @@ public class BLService
         catch(Exception e)
         {
             System.out.println("[::ERROR::]" + e.getMessage());
+            em.getTransaction().rollback();
             throw e;
         }
         finally
@@ -441,6 +440,7 @@ public class BLService
         catch(Exception e)
         {
             System.out.println("[::ERROR::]" + e.getMessage());
+            em.getTransaction().rollback();
             throw e;
         }
         finally
@@ -475,6 +475,7 @@ public class BLService
         catch(Exception e)
         {
             System.out.println("[::ERROR::]" + e.getMessage());
+            em.getTransaction().rollback();
             throw e;
         }
         finally
@@ -509,6 +510,7 @@ public class BLService
         catch(Exception e)
         {
             System.out.println("[::ERROR::]" + e.getMessage());
+            em.getTransaction().rollback();
             throw e;
         }
         finally
@@ -545,6 +547,7 @@ public class BLService
         catch(Exception e)
         {
             System.out.println("[::ERROR::]" + e.getMessage());
+            em.getTransaction().rollback();
             throw e;
         }
         finally
@@ -575,6 +578,7 @@ public class BLService
         catch(Exception e)
         {
             System.out.println("[::ERROR::]" + e.getMessage());
+            em.getTransaction().rollback();
             throw e;
         }
         finally
@@ -612,6 +616,7 @@ public class BLService
         catch(Exception e)
         {
             System.out.println("[::ERROR::]" + e.getMessage());
+            em.getTransaction().rollback();
             throw e;
         }
         finally
@@ -642,6 +647,7 @@ public class BLService
         catch(Exception e)
         {
             System.out.println("[::ERROR::]" + e.getMessage());
+            em.getTransaction().rollback();
             throw e;
         }
         finally
@@ -673,6 +679,7 @@ public class BLService
         catch(Exception e)
         {
             System.out.println("[::ERROR::]" + e.getMessage());
+            em.getTransaction().rollback();
             throw e;
         }
         finally

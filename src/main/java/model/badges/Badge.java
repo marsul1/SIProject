@@ -79,4 +79,8 @@ public class Badge {
     public void removePlayer(Player player) {
         this.players.remove(player);
     }
+
+    public String toString() {
+        return "Badge(" + getId().getBadgeName() + ", " + getId().getGameRef() + ", " + getPointsLimit() + ", " + getImageUrl() + ")";
+    }
 }

@@ -50,5 +50,7 @@ public class PlayerPurchasePK implements Serializable {
         return Objects.hash(player_id);
     }
 
-
+    public String toString() {
+        return "PlayerpurchasePK(" + getPlayerId() + ", " + getGameRef() + ")";
+    }
 }

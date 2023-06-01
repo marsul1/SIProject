@@ -200,4 +200,8 @@ public class Player {
     public void removePlaysMulti(PlaysMulti singlePlayerMatch) {
         this.singlePlayerMatches.remove(singlePlayerMatch);
     }
+
+    public String toString() {
+        return "Player(" + getId() + ", " + getEmail() + ", " + getUsername() + ", " + getState() + ", " + getRegion().getName() + ")";
+    }
 }

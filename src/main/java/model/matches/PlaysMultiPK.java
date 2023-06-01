@@ -54,5 +54,7 @@ public class PlaysMultiPK implements Serializable {
         return hash;
     }
 
-
+    public String toString() {
+        return "PlaysmultiPK(" + getMatchPK() + ", " + getPlayerId() + ")";
+    }
 }

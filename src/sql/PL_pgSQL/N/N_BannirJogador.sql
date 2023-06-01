@@ -12,6 +12,6 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE TRIGGER banir_jogador_trigger
-    INSTEAD OF DELETE ON jogadorTotalInfo
+    INSTEAD OF DELETE ON jogador_total_info
     FOR EACH ROW
 EXECUTE FUNCTION banir_jogador();

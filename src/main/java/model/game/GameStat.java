@@ -65,4 +65,8 @@ public class GameStat {
     public void setGame(Game game ) {
         this.game = game;
     }
+
+    public String toString() {
+        return "GameStat(" + getId() + ", " + getGame().getReference() + ", " + getNumMatches() + ", " + getNumPlayers() + ", " + getTotalPoints() + ")";
+    }
 }

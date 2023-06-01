@@ -16,14 +16,14 @@ public class PlayerPurchase {
     private Timestamp purchase_date;
     private BigDecimal price ;
 
-    //bi-directional many-to-one association to Player
+    //bidirectional many-to-one association to Player
     @ManyToOne
     @MapsId("player_id")
     @JoinColumn(name="player_id")
     private Player player;
 
 
-    //bi-directional many-to-one association to Game
+    //bidirectional many-to-one association to Game
     @ManyToOne
     @MapsId("game_ref")
     @JoinColumn(name="game_ref")
@@ -67,5 +67,9 @@ public class PlayerPurchase {
 
     public void setGame(Game game) {
         this.game = game;
+    }
+
+    public String toString() {
+        return "PlayerPurchase(" + getId().getPlayerId() + ", " + getId().getGameRef() + ", " + getPurchaseDate() + ", " + getPrice() + ")";
     }
 }

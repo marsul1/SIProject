@@ -97,4 +97,8 @@ public class Game /*implements Serializable*/ {
         getBadges().remove(badge);
         badge.setGame(null);
     }
+
+    public String toString() {
+        return "Game(" + getReference() + ", " + getName() + ", " + getUrl() + ")";
+    }
 }
