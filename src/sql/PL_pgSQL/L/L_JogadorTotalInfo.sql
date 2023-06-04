@@ -28,3 +28,5 @@ CREATE OR REPLACE view jogador_total_info
 as select p.id, p.state, p.email, p.username, total_jogos_jogador(p.id),partidas_jogador(p.id) ,total_pontos_jogador(p.id)
    from players p
    where p.state != 'Banned';
+
+select jogador_total_info

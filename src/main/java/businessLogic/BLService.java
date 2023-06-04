@@ -688,4 +688,36 @@ public class BLService {
             emf.close();
         }
     }
+
+    public  void jogadorTotalInfo(int playerID, int conversationID,  String message) throws Exception // Alinea D
+    {
+        //ban player
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAExemplo");
+        EntityManager em = emf.createEntityManager();
+        try
+        {
+            System.out.println("Criar com o procedimento enviar_mensagem_logica");
+            em.getTransaction().begin();
+            //suposto chamar create_player mas da erro.
+            Query query = em.createNativeQuery("CALL enviar_mensagem_logica(?,?,?)");
+            query.setParameter(1, playerID);
+            query.setParameter(2, conversationID);
+            query.setParameter(3,message);
+            query.executeUpdate();
+
+            em.getTransaction().commit();
+
+        }
+        catch(Exception e)
+        {
+            System.out.println("[::ERROR::]" + e.getMessage());
+            em.getTransaction().rollback();
+            throw e;
+        }
+        finally
+        {
+            em.close();
+            emf.close();
+        }
+    }
 }

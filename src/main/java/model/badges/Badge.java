@@ -1,8 +1,6 @@
 package model.badges;
 
 import jakarta.persistence.*;
-import model.conversation.Conversation;
-import model.conversation.Message;
 import model.game.Game;
 import model.players.Player;
 
@@ -64,11 +62,11 @@ public class Badge {
         this.game = game;
     }
 
-    public Set<Player> getPlayer() {
+    public Set<Player> getPlayers() {
         return players;
     }
 
-    public void setPlayer(Set<Player> players) {
+    public void setPlayers(Set<Player> players) {
         this.players = players;
     }
 

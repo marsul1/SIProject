@@ -67,6 +67,11 @@ public class Player {
     @OneToMany(mappedBy="player",cascade=CascadeType.PERSIST)
     private List<PlaysMulti> playsMultis;
 
+    @ManyToMany(cascade=CascadeType.REMOVE)
+    @JoinTable(name="friends",
+            joinColumns=@JoinColumn(name="player_id"),
+            inverseJoinColumns=@JoinColumn(name="friend_id"))
+    private Set<Player> friends;
     public Player() {
     }
 
@@ -203,5 +208,21 @@ public class Player {
 
     public String toString() {
         return "Player(" + getId() + ", " + getEmail() + ", " + getUsername() + ", " + getState() + ", " + getRegion().getName() + ")";
+    }
+
+    public Set<Player> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(Set<Player> friends) {
+        this.friends = friends;
+    }
+
+    public Set<Badge> getBadges() {
+        return badges;
+    }
+
+    public void setBadges(Set<Badge> badges) {
+        this.badges = badges;
     }
 }

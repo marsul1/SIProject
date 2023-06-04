@@ -101,4 +101,12 @@ public class Game /*implements Serializable*/ {
     public String toString() {
         return "Game(" + getReference() + ", " + getName() + ", " + getUrl() + ")";
     }
+
+    public List<Match> getMatches() {
+        return matches;
+    }
+
+    public void setMatches(List<Match> matches) {
+        this.matches = matches;
+    }
 }

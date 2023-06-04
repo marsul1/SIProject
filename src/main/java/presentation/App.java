@@ -56,7 +56,7 @@ public class App
 			() -> {try { srv.testT7(); } catch(Exception e) {
 				System.out.println(e.getMessage());
 			}},
-			() -> {try { srv.testCriarJogador("bernadorserra@isel.pt", "bernardo", "Europe"); } catch(Exception e) {
+			() -> {try { srv.testCriarJogador("bernadorserra@isel.pt", "bernarda", "Europe"); } catch(Exception e) {
 				System.out.println(e.getMessage()); // 8
 			}},
 			() -> {try { srv.testBanirJogador(3); } catch(Exception e) {
