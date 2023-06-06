@@ -3,29 +3,30 @@ package dal;
 import genericInterfaces.IMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
-import model.game.Game;
 import model.matches.Match;
 import model.matches.MatchPK;
+import model.matches.MultiAndSinglePK;
+import model.matches.MultiPlayerMatch;
 
-public class MapperMatch implements IMapper<Match, MatchPK> {
+public class MapperMultiPlayerMatch implements IMapper<MultiPlayerMatch, MatchPK> {
 
-    public MatchPK create(Match match ) throws Exception {
+    public MatchPK create(MultiPlayerMatch multiPlayerMatch ) throws Exception {
         try (DataAccessScope ds = new DataAccessScope()) {
             EntityManager em = ds.getEntityManager();
-            em.persist(match);
+            em.persist(multiPlayerMatch);
             ds.validateWork();
-            return match.getId();
+            return multiPlayerMatch.getId();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw e;
         }
     }
 
-    public Match read (MatchPK matchPK) throws Exception {
+    public MultiPlayerMatch read (MatchPK matchPK) throws Exception {
         try (DataAccessScope ds = new DataAccessScope()) {
             EntityManager em = ds.getEntityManager();
             em.flush();  // ? necess?rio para o pr?ximo find encontrar o registo caso ele tenha sido criado neste transa??o
-            Match match = em.find(Match.class, matchPK, LockModeType.PESSIMISTIC_READ);
+            MultiPlayerMatch match = em.find(MultiPlayerMatch.class, matchPK, LockModeType.PESSIMISTIC_READ);
             ds.validateWork();
             return match;
         } catch (Exception e) {
@@ -34,19 +35,16 @@ public class MapperMatch implements IMapper<Match, MatchPK> {
         }
     }
 
-    public void update(Match match) throws Exception {
+    public void update(MultiPlayerMatch match) throws Exception {
         try (DataAccessScope ds = new DataAccessScope()) {
             EntityManager em = ds.getEntityManager();
             em.flush();  // ? necess?rio para o pr?ximo find encontrar o registo caso ele tenha sido criado neste transa??o
-            Match uptateMatch = em.find(Match.class, match.getId(), LockModeType.PESSIMISTIC_WRITE);
-            if (uptateMatch == null)
+            MultiPlayerMatch updateMatch = em.find(MultiPlayerMatch.class, match.getId(), LockModeType.PESSIMISTIC_WRITE);
+            if (updateMatch == null)
                 throw new java.lang.IllegalAccessException("Entidade inexistente");
-            uptateMatch.setRegion(match.getRegion());
-            uptateMatch.setGame(match.getGame());
-            uptateMatch.setStartTime(match.getStartTime());
-            uptateMatch.setEndTime(match.getEndTime());
-            uptateMatch.setMultiPlayerMatch(match.getMultiPlayerMatch());
-            uptateMatch.setSinglePlayerMatch(match.getSinglePlayerMatch());
+            updateMatch.setMatch(match.getMatch());
+            updateMatch.setState(match.getState());
+            updateMatch.setPlaysMultis(match.getPlaysMultis());
             ds.validateWork();
 
         } catch (Exception e) {
@@ -56,11 +54,11 @@ public class MapperMatch implements IMapper<Match, MatchPK> {
 
     }
 
-    public void delete(Match match) throws Exception {
+    public void delete(MultiPlayerMatch match) throws Exception {
         try (DataAccessScope ds = new DataAccessScope()) {
             EntityManager em = ds.getEntityManager();
             em.flush(); // ? necess?rio para o pr?ximo find encontrar o registo caso ele tenha sido criado neste transa??o
-            Match deleteMatch = em.find(Match.class, match.getId(), LockModeType.PESSIMISTIC_WRITE);
+            MultiPlayerMatch deleteMatch = em.find(MultiPlayerMatch.class, match.getId(), LockModeType.PESSIMISTIC_WRITE);
             if (deleteMatch == null)
                 throw new java.lang.IllegalAccessException("Entidade inexistente");
             em.remove(deleteMatch);

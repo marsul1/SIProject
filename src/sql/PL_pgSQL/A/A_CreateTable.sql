@@ -58,7 +58,7 @@ CREATE TABLE single_player_match
     difficulty INTEGER NOT NULL,
     points INTEGER,
     CONSTRAINT check_difficulty CHECK (difficulty BETWEEN 1 AND 5), --Tirar o IN
-    PRIMARY KEY (match_number,game_ref), --  (match_number,player_id) alteração necessaria
+    PRIMARY KEY (match_number,game_ref,player_id), --  (match_number,player_id) alteração necessaria
     FOREIGN KEY (match_number, game_ref) REFERENCES matches (match_number, game_ref) ON DELETE CASCADE,
     FOREIGN KEY (player_id) REFERENCES players (id) ON DELETE CASCADE
 );
@@ -79,7 +79,7 @@ CREATE TABLE plays_multi
 	game_ref VARCHAR(10) NOT NULL,
     player_id    INTEGER NOT NULL REFERENCES players (id),
     points       INTEGER,
-    PRIMARY KEY (match_number, player_id),
+    PRIMARY KEY (match_number,game_ref, player_id),
     FOREIGN KEY (match_number, game_ref) REFERENCES matches (match_number, game_ref) ON DELETE CASCADE
 );
 

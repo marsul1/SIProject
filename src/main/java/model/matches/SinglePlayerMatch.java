@@ -10,31 +10,33 @@ import java.io.Serializable;
 @NamedQuery(name="SinglePlayerMatch.findAll", query="SELECT sm FROM SinglePlayerMatch sm")
 public class SinglePlayerMatch  implements Serializable {
     @EmbeddedId
-    private MatchPK id;
+    private MultiAndSinglePK id;
 
     private Integer points;
 
     private Integer difficulty;
 
     @OneToOne
+    @MapsId("matchPK")
     @JoinColumns({
-            @JoinColumn(name="match_number", referencedColumnName="match_number", insertable = false, updatable = false),
-            @JoinColumn(name="game_ref", referencedColumnName="game_ref", insertable = false, updatable = false)
+            @JoinColumn(name="match_number", referencedColumnName="match_number"),
+            @JoinColumn(name="game_ref", referencedColumnName="game_ref")
     })
     private Match match;
 
     @ManyToOne
+    @MapsId("player_id")
     @JoinColumn(name="player_id")
     private Player player;
 
     public SinglePlayerMatch() {
     }
 
-    public MatchPK getId() {
+    public MultiAndSinglePK getId() {
         return this.id;
     }
 
-    public void setId(MatchPK mId) {
+    public void setId(MultiAndSinglePK mId) {
         this.id = mId;
     }
 
@@ -71,6 +73,6 @@ public class SinglePlayerMatch  implements Serializable {
     }
 
     public String toString() {
-        return "SinglePlayerMatch(" + getId().getMatchNumber() + ", " + getId().getGameRef() + ", " + getPlayer().getId() + ", " + getDifficulty() + ", " + getPoints() + ")";
+        return "SinglePlayerMatch(" + getId().getMatchPK().getMatchNumber() + ", " + getId().getMatchPK().getGameRef() + ", " + getPlayer().getId() + ", " + getDifficulty() + ", " + getPoints() + ")";
     }
 }

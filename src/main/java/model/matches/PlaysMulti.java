@@ -10,7 +10,7 @@ import model.players.Player;
 @NamedQuery(name="PlaysMulti.findAll", query="SELECT pm FROM PlaysMulti pm")
 public class PlaysMulti {
     @EmbeddedId
-    private PlaysMultiPK id;
+    private MultiAndSinglePK id;
     private int points;
 
     //bi-directional many-to-one association to Player
@@ -29,11 +29,11 @@ public class PlaysMulti {
     })
     private MultiPlayerMatch multiPlayerMatch;
 
-    public PlaysMultiPK getId() {
+    public MultiAndSinglePK getId() {
         return id;
     }
 
-    public void setId(PlaysMultiPK id) {
+    public void setId(MultiAndSinglePK id) {
         this.id = id;
     }
 

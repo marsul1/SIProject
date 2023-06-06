@@ -3,16 +3,16 @@
 
 
 -- o  é criada uma partida com um número sequencial e único para cada jogo
-CREATE OR REPLACE FUNCTION next_id()
+CREATE OR REPLACE FUNCTION next_match_number_trigger()
     RETURNS TRIGGER AS $$
     DECLARE
-        max_id INT;
+        max_match_number INT;
     BEGIN
-        select MAX(id) INTO max_id from partida where jogo = NEW.jogo;
-          IF max_id IS NULL THEN
-              NEW.id := 1;
+        select MAX(match_number) INTO max_match_number from matches where game_ref = NEW.game_ref;
+          IF max_match_number IS NULL THEN
+              NEW.match_number := 1;
         ELSE
-            NEW.id := max_id+1;
+            NEW.match_number := max_match_number+1;
         END IF;
           RETURN NEW;
     END;
@@ -20,7 +20,25 @@ CREATE OR REPLACE FUNCTION next_id()
 
 
     ----------------------------TRIGGERS----------------------------
-    CREATE OR REPLACE TRIGGER partida_id_setter
-        BEFORE INSERT ON PARTIDA
+    CREATE OR REPLACE TRIGGER match_number_setter
+        BEFORE INSERT ON matches
         FOR EACH ROW
-            EXECUTE FUNCTION next_id();
+            EXECUTE FUNCTION next_match_number_trigger();
+
+
+CREATE OR REPLACE FUNCTION next_match_number(
+    reference varchar
+)
+    RETURNS INT AS $$
+DECLARE
+    max_match_number INT;
+BEGIN
+    select MAX(match_number) INTO max_match_number from matches where game_ref = reference;
+    IF max_match_number IS NULL THEN
+        max_match_number := 1;
+    ELSE
+        max_match_number := max_match_number + 1;
+    END IF;
+    RETURN max_match_number;
+END;
+$$ LANGUAGE plpgsql;

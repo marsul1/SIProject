@@ -155,15 +155,20 @@ public class BLService {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-
-            int maxId = ((Integer) em.createQuery("SELECT MAX(m.id.match_number) FROM Match m").getSingleResult()) + 1;
+            var gameReference = "G3";
+            StoredProcedureQuery query = em.createStoredProcedureQuery("next_match_number");
+            query.registerStoredProcedureParameter(1, String.class, ParameterMode.IN);;
+            query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.OUT);;
+            query.setParameter(1,gameReference);
+            query.execute();
+            Integer returnValue = (Integer) query.getOutputParameterValue(2);
 
             MatchPK matchPK = new MatchPK();
-            matchPK.setMatchNumber(maxId);
-            matchPK.setGameRef("G1");
+            matchPK.setMatchNumber(returnValue);
+            matchPK.setGameRef(gameReference);
 
             Match m = new Match();
-            Game game = em.find(Game.class, "G1");
+            Game game = em.find(Game.class, gameReference);
             m.setStartTime(Timestamp.valueOf(LocalDateTime.now()));
             m.setGame(game);
 
@@ -238,29 +243,40 @@ public class BLService {
             // criar conversa dado um jogador
             em.getTransaction().begin();
 
-            Query query = em.createQuery("SELECT MAX(m.id.match_number) FROM Match m");
+            var gameReference = "G3";
+            var playerID = 1;
+            StoredProcedureQuery query = em.createStoredProcedureQuery("next_match_number");
+            query.registerStoredProcedureParameter(1, String.class, ParameterMode.IN);
+            query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.OUT);
+            query.setParameter(1,gameReference);
+            query.execute();
+            Integer returnValue = (Integer) query.getOutputParameterValue(2);
 
-            Integer last_match_number = (Integer) query.getSingleResult();
-            if (last_match_number == null ) last_match_number= 0 ;
+            Player player = em.find(Player.class, playerID);
+
             MatchPK matchPK = new MatchPK();
-            matchPK.setMatchNumber(last_match_number+1);
-            matchPK.setGameRef("G1");
+
+            matchPK.setMatchNumber(returnValue);
+            matchPK.setGameRef(gameReference);
+
             Match match = new Match();
             Regions region = new Regions();
             region.setName("Europe");
             match.setRegion(region);
-
             match.setId(matchPK);
             match.setStartTime(Timestamp.valueOf( LocalDateTime.now()));
-            Game game = em.find(Game.class, "G1");
+            Game game = em.find(Game.class, gameReference);
             match.setGame(game);
             SinglePlayerMatch singlePlayerMatch = new SinglePlayerMatch();
             singlePlayerMatch.setMatch(match);
             singlePlayerMatch.setDifficulty(4);
             singlePlayerMatch.setPoints(4000);
-            singlePlayerMatch.setId(matchPK);
+            MultiAndSinglePK multiAndSinglePK = new MultiAndSinglePK();
+            multiAndSinglePK.setMatchPK(matchPK);
+            multiAndSinglePK.setPlayerId(playerID);
+            singlePlayerMatch.setId(multiAndSinglePK);
 
-            Player player = em.find(Player.class, 1);
+
             singlePlayerMatch.setPlayer(player);
 
             match.setSinglePlayerMatch(singlePlayerMatch);
@@ -294,13 +310,17 @@ public class BLService {
         {
             em.getTransaction().begin();
 
-            Query query = em.createQuery("SELECT MAX(m.id.match_number) FROM Match m");
+            var gameReference = "G4";
+            StoredProcedureQuery query = em.createStoredProcedureQuery("next_match_number");
+            query.registerStoredProcedureParameter(1, String.class, ParameterMode.IN);
+            query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.OUT);
+            query.setParameter(1,gameReference);
+            query.execute();
+            Integer returnValue = (Integer) query.getOutputParameterValue(2);
 
-            Integer last_match_number = (Integer) query.getSingleResult();
-            if (last_match_number == null ) last_match_number= 0 ;
             MatchPK matchPK = new MatchPK();
-            matchPK.setMatchNumber(last_match_number+1);
-            Game game = em.find(Game.class, "G3");
+            matchPK.setMatchNumber(returnValue);
+            Game game = em.find(Game.class, gameReference);
             matchPK.setGameRef(game.getReference());
             Match match = new Match();
             Regions region = new Regions();
@@ -311,22 +331,23 @@ public class BLService {
             match.setStartTime(Timestamp.valueOf( LocalDateTime.now()));
 
             match.setGame(game);
+
             MultiPlayerMatch multiPlayerMatch = new MultiPlayerMatch();
             multiPlayerMatch.setMatch(match);
             multiPlayerMatch.setState("Terminada");
             multiPlayerMatch.setId(matchPK);
 
             PlaysMulti playsMulti1 = new PlaysMulti();
-            PlaysMultiPK playsMulti1PK =new PlaysMultiPK();
-            Player player1 = em.find(Player.class, 1);
+            MultiAndSinglePK playsMulti1PK =new MultiAndSinglePK();
+            Player player1 = em.find(Player.class, 3);
             playsMulti1.setId(playsMulti1PK);
             playsMulti1.setPlayer(player1);
             playsMulti1.setPoints(5000);
             playsMulti1.setMultiPlayerMatch(multiPlayerMatch);
 
             PlaysMulti playsMulti2 = new PlaysMulti();
-            PlaysMultiPK playsMulti2PK =new PlaysMultiPK();
-            Player player2 = em.find(Player.class, 2);
+            MultiAndSinglePK playsMulti2PK =new MultiAndSinglePK();
+            Player player2 = em.find(Player.class, 5);
             playsMulti2.setId(playsMulti2PK);
             playsMulti2.setPlayer(player2);
             playsMulti2.setPoints(5000);

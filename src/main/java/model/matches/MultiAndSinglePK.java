@@ -4,13 +4,13 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Embeddable
-public class PlaysMultiPK implements Serializable {
+public class MultiAndSinglePK implements Serializable {
     private Integer player_id;
 
     @Embedded
     private MatchPK matchPK;
 
-    public PlaysMultiPK() {
+    public MultiAndSinglePK() {
 
     }
 
@@ -34,10 +34,10 @@ public class PlaysMultiPK implements Serializable {
         if (this == other) {
             return true;
         }
-        if (!(other instanceof PlaysMultiPK)) {
+        if (!(other instanceof MultiAndSinglePK)) {
             return false;
         }
-        PlaysMultiPK castOther = (PlaysMultiPK)other;
+        MultiAndSinglePK castOther = (MultiAndSinglePK)other;
         return
                 this.getMatchPK().getMatchNumber().equals(castOther.getMatchPK().getMatchNumber())
                         && this.getMatchPK().getGameRef().equals(castOther.getMatchPK().getGameRef())
