@@ -47,8 +47,9 @@ DECLARE
     code char(5) DEFAULT '00000';
     msg text;
 BEGIN
-	rollback;
-	set transaction isolation level read committed;
+	--rollback;
+	set transaction isolation level read committed; -- o jpa tem que definir o mesmo nivel
+	-- chamo a funçao unwrap
     BEGIN
 	CALL associar_cracha_logic(uid, game_ref, nome_cracha);
 	EXCEPTION

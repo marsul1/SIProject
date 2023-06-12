@@ -35,57 +35,66 @@ public class App
 	public static void main( String[] args ) throws Exception
    {   BLService srv = new BLService();
    	ITest[] tests = new ITest[] {
-			() -> {try { srv.testT1(); } catch(Exception e) {
-				System.out.println(e.getMessage());
-			}},
-			() -> {try { srv.testT2(); } catch(Exception e) {
-				System.out.println(e.getMessage());
-			}},
-			() -> {try { srv.testT3(); } catch(Exception e) {
-				System.out.println(e.getMessage());
-			}},
-			() -> {try { srv.testT4(); } catch(Exception e) {
-				System.out.println(e.getMessage());
-			}},
-			() -> {try { srv.testT5(); } catch(Exception e) {
-				System.out.println(e.getMessage());
-			}},
-			() -> {try { srv.testT6(); } catch(Exception e) {
-				System.out.println(e.getMessage());
-			}},
-			() -> {try { srv.testT7(); } catch(Exception e) {
-				System.out.println(e.getMessage());
-			}},
-			() -> {try { srv.testCriarJogador("bernadorserra@isel.pt", "bernarda", "Europe"); } catch(Exception e) {
+//			() -> {try { srv.testT1(); } catch(Exception e) {
+//				System.out.println(e.getMessage());
+//			}},
+//			() -> {try { srv.testT2(); } catch(Exception e) {
+//				System.out.println(e.getMessage());
+//			}},
+//			() -> {try { srv.testT3(); } catch(Exception e) {
+//				System.out.println(e.getMessage());
+//			}},
+//			() -> {try { srv.testT4(); } catch(Exception e) {
+//				System.out.println(e.getMessage());
+//			}},
+//			() -> {try { srv.testT5(); } catch(Exception e) {
+//				System.out.println(e.getMessage());
+//			}},
+//			() -> {try { srv.testT6(); } catch(Exception e) {
+//				System.out.println(e.getMessage());
+//			}},
+			() -> {try { srv.criarJogador("asds22wawdw@isel.pt", "jawdddwaha", "Europe"); } catch(Exception e) {
 				System.out.println(e.getMessage()); // 8
 			}},
-			() -> {try { srv.testBanirJogador(3); } catch(Exception e) {
+			() -> {try { srv.banirJogador(3); } catch(Exception e) {
 				System.out.println(e.getMessage());// 9
 			}},
-			() -> {try { srv.testDesativarJogador(2); } catch(Exception e) {
+			() -> {try { srv.desativarJogador(2); } catch(Exception e) {
 				System.out.println(e.getMessage());// 10
 			}},
-			() -> {try { srv.testTotalPontosJogador(1); } catch(Exception e) {
+			() -> {try { srv.totalPontosJogador(1); } catch(Exception e) {
 				System.out.println(e.getMessage()); // 11
 			}},
-			() -> {try { srv.testJogosJogador(1); } catch(Exception e) {
+			() -> {try { srv.jogosJogador(1); } catch(Exception e) {
 				System.out.println(e.getMessage()); // 12
 			}},
-			() -> {try { srv.testPontosJogoPorJogador("G1"); } catch(Exception e) {
+			() -> {try { srv.pontosJogoPorJogador("G1"); } catch(Exception e) {
 				System.out.println(e.getMessage());// 13
 			}},
-			() -> {try { srv.testAssociarCracha(1,"G1", "strong"); } catch(Exception e) {
+			() -> {try { srv.associarCracha(1,"G1", "strong"); } catch(Exception e) {
 				System.out.println(e.getMessage());// 14
 			}},
-			() -> {try { srv.testIniciarConversa(1, "First Conversation"); } catch(Exception e) {
+			() -> {try { srv.iniciarConversa(1, "First Conversation"); } catch(Exception e) {
 				System.out.println(e.getMessage());// 15
 			}},
-			() -> {try { srv.testJuntarConversa(2,1); } catch(Exception e) {
+			() -> {try { srv.juntarConversa(2,1); } catch(Exception e) {
 				System.out.println(e.getMessage());// 16
 			}},
-			() -> {try { srv.testEnviarMensagem(1,1,
+			() -> {try { srv.enviarMensagem(1,1,
 					"Minha primeira mensagem"); } catch(Exception e) {   // 17
 				System.out.println(e.getMessage());
+			}},
+			() -> {try { srv.jogadorTotalInfo(); } catch(Exception e) {   // 18
+				System.out.println(e.getMessage());
+			}},
+			() -> {try { srv.associarCrachaJPA(1,"G1","strong"); } catch(Exception e) {   // 18
+				System.out.println(e.getMessage()); //19
+			}},
+			() -> {try { srv.optimisticLocking("G1","strong",1); } catch(Exception e) {   // 18
+				System.out.println(e.getMessage()); //19
+			}},
+			() -> {try { srv.pessimistLocking("G1","strong"); } catch(Exception e) {   // 18
+				System.out.println(e.getMessage()); //19
 			}}
       };
 

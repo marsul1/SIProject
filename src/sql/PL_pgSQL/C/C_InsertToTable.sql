@@ -38,35 +38,35 @@ VALUES (1, 'G1', '2022-03-15 14:30:00', 9.99),
 -- Insert new matches, some of which have already ended
 INSERT INTO matches (match_number, start_time, end_time, game_ref, region_name)
 VALUES (1, '2022-03-15 15:00:00', '2022-03-15 16:30:00', 'G1', 'Europe'),
-       (2, '2022-02-28 10:30:00', '2022-02-28 12:00:00', 'G2', 'Europe'),
-       (3, '2022-01-20 09:00:00', '2022-01-20 10:30:00', 'G3', 'Europe'),
-       (4, '2022-03-17 15:00:00', '2022-03-17 16:30:00', 'G4', 'Europe'),
-       (5, '2022-03-18 15:00:00', '2022-03-18 16:30:00', 'G1', 'Europe'),
-       (6, '2022-03-19 15:00:00', '2022-03-19 16:30:00', 'G2', 'Europe'),
-       (7, '2022-03-20 15:00:00', NULL, 'G4', 'Europe'),
-       (8, '2022-03-21 15:00:00', NULL, 'G3', 'Europe'),
-       (9, '2022-03-11 11:00:00', '2022-03-11 11:00:10', 'G1', 'Europe');
+       (1, '2022-02-28 10:30:00', '2022-02-28 12:00:00', 'G2', 'Europe'),
+       (1, '2022-01-20 09:00:00', '2022-01-20 10:30:00', 'G3', 'Europe'),
+       (1, '2022-03-17 15:00:00', '2022-03-17 16:30:00', 'G4', 'Europe'),
+       (2, '2022-03-18 15:00:00', '2022-03-18 16:30:00', 'G1', 'Europe'),
+       (2, '2022-03-19 15:00:00', '2022-03-19 16:30:00', 'G2', 'Europe'),
+       (2, '2022-03-20 15:00:00', NULL, 'G4', 'Europe'),
+       (2, '2022-03-21 15:00:00', NULL, 'G3', 'Europe'),
+       (3, '2022-03-11 11:00:00', '2022-03-11 11:00:10', 'G1', 'Europe');
 
 -- Insert new single player matches with their difficulty level and points
 INSERT INTO single_player_match (match_number, game_ref, player_id, difficulty, points)
 VALUES (1, 'G1', 1, 1,1000),
-       (3, 'G3', 3, 5,600),
-       (5, 'G1', 2, 3,800),
-       (6, 'G2', 3, 5,1200),
-       (8, 'G3', 2, 4,1500),
-       (9, 'G1', 2, 3,100);
+       (1, 'G3', 3, 5,600),
+       (2, 'G1', 2, 3,800),
+       (2, 'G2', 3, 5,1200),
+       (2, 'G3', 2, 4,1500),
+       (3, 'G1', 2, 3,100);
 
 -- Insert new multi player matches with their state
 INSERT INTO multi_player_match (match_number, game_ref, state)
-VALUES (2, 'G2', 'Por iniciar'),
-       (4, 'G4', 'Em curso'),
-       (7, 'G4', 'Terminada');
+VALUES (1, 'G2', 'Por iniciar'),
+       (1, 'G4', 'Em curso'),
+       (2, 'G4', 'Terminada');
 
 -- Insert new plays points matches with their points
 INSERT INTO plays_multi (match_number, game_ref, player_id, points)
-VALUES (4, 'G4', 1, 7000),
-       (4, 'G4', 2, 6500),
-       (4, 'G4', 3, 6250),
+VALUES (1, 'G4', 1, 7000),
+       (1, 'G4', 2, 6500),
+       (1, 'G4', 3, 6250),
        (7, 'G4', 7, 1000);
 
 INSERT INTO badges (name, game_ref, points_limit, image_url)

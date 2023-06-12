@@ -1,12 +1,10 @@
-package dal;
+package dal.mappers;
 
+import dal.DataScope.DataAccessScope;
 import genericInterfaces.IMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
-import model.badges.Badge;
-import model.badges.BadgePK;
 import model.game.Game;
-import model.players.Player;
 
 public class MapperGame implements IMapper<Game, String> {
     public String create(Game game ) throws Exception {

@@ -1,12 +1,12 @@
-package dal;
+package dal.mappers;
 
+import dal.DataScope.DataAccessScope;
 import genericInterfaces.IMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
 import model.players.Player;
 
 public class MapperPlayer implements IMapper<Player, Integer> {
-
 
     public Integer create(Player player) throws Exception {
         try (DataAccessScope ds = new DataAccessScope()) {

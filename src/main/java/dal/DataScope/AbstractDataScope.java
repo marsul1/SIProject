@@ -1,4 +1,4 @@
-package dal;
+package dal.DataScope;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;

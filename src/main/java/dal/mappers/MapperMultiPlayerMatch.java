@@ -1,51 +1,49 @@
-package dal;
+package dal.mappers;
 
+import dal.DataScope.DataAccessScope;
 import genericInterfaces.IMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
-import model.badges.Badge;
-import model.badges.BadgePK;
+import model.matches.MatchPK;
+import model.matches.MultiPlayerMatch;
 
+public class MapperMultiPlayerMatch implements IMapper<MultiPlayerMatch, MatchPK> {
 
-public class MapperBadge implements IMapper<Badge, BadgePK> {
-
-
-    public BadgePK create(Badge badge) throws Exception {
+    public MatchPK create(MultiPlayerMatch multiPlayerMatch ) throws Exception {
         try (DataAccessScope ds = new DataAccessScope()) {
             EntityManager em = ds.getEntityManager();
-            em.persist(badge);
+            em.persist(multiPlayerMatch);
             ds.validateWork();
-            return badge.getId();
+            return multiPlayerMatch.getId();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw e;
         }
     }
 
-    public Badge read (BadgePK id) throws Exception {
+    public MultiPlayerMatch read (MatchPK matchPK) throws Exception {
         try (DataAccessScope ds = new DataAccessScope()) {
             EntityManager em = ds.getEntityManager();
             em.flush();  // ? necess?rio para o pr?ximo find encontrar o registo caso ele tenha sido criado neste transa??o
-            Badge badge = em.find(Badge.class, id, LockModeType.PESSIMISTIC_READ);
+            MultiPlayerMatch match = em.find(MultiPlayerMatch.class, matchPK, LockModeType.PESSIMISTIC_READ);
             ds.validateWork();
-            return badge;
+            return match;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw e;
         }
     }
 
-    public void update(Badge badge) throws Exception {
+    public void update(MultiPlayerMatch match) throws Exception {
         try (DataAccessScope ds = new DataAccessScope()) {
             EntityManager em = ds.getEntityManager();
             em.flush();  // ? necess?rio para o pr?ximo find encontrar o registo caso ele tenha sido criado neste transa??o
-            Badge uptateBadge = em.find(Badge.class, badge.getId(), LockModeType.PESSIMISTIC_WRITE);
-            if (uptateBadge == null)
+            MultiPlayerMatch updateMatch = em.find(MultiPlayerMatch.class, match.getId(), LockModeType.PESSIMISTIC_WRITE);
+            if (updateMatch == null)
                 throw new java.lang.IllegalAccessException("Entidade inexistente");
-            uptateBadge.setImageUrl(badge.getImageUrl());
-            uptateBadge.setPointsLimit(uptateBadge.getPointsLimit());
-            uptateBadge.setGame(badge.getGame());
-            uptateBadge.setPlayers(badge.getPlayers());
+            updateMatch.setMatch(match.getMatch());
+            updateMatch.setState(match.getState());
+            updateMatch.setPlaysMultis(match.getPlaysMultis());
             ds.validateWork();
 
         } catch (Exception e) {
@@ -55,18 +53,19 @@ public class MapperBadge implements IMapper<Badge, BadgePK> {
 
     }
 
-    public void delete(Badge badge) throws Exception {
+    public void delete(MultiPlayerMatch match) throws Exception {
         try (DataAccessScope ds = new DataAccessScope()) {
             EntityManager em = ds.getEntityManager();
             em.flush(); // ? necess?rio para o pr?ximo find encontrar o registo caso ele tenha sido criado neste transa??o
-            Badge deleteBadge = em.find(Badge.class, badge.getId(), LockModeType.PESSIMISTIC_WRITE);
-            if (deleteBadge == null)
+            MultiPlayerMatch deleteMatch = em.find(MultiPlayerMatch.class, match.getId(), LockModeType.PESSIMISTIC_WRITE);
+            if (deleteMatch == null)
                 throw new java.lang.IllegalAccessException("Entidade inexistente");
-            em.remove(deleteBadge);
+            em.remove(deleteMatch);
             ds.validateWork();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw e;
         }
     }
+
 }

@@ -23,18 +23,24 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE PROCEDURE create_player_logic(
-    email VARCHAR(255),
-    username VARCHAR(255),
-    region_name VARCHAR(255)
+    _email VARCHAR(255),
+    _username VARCHAR(255),
+    _region_name VARCHAR(255)
 )
 AS
 $$
+DECLARE
+    playerId int;
 BEGIN
+    select  p.id from players p where p.email = _email or p.username = _username into playerId;
+    if playerId  is not null then
+        RAISE EXCEPTION 'Player Already exist';
+    end if ;
     insert into players(email, username, state, region_name)
-    VALUES(email,username,'Ativo',region_name);
+    VALUES(_email,_username,'Ativo',_region_name);
 END;
 $$ LANGUAGE plpgsql;
 
-
+DROP PROCEDURE create_player_logic
 
 

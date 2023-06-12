@@ -26,4 +26,4 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-select total_jogos_jogador (1);
+select total_jogos_jogador (6);

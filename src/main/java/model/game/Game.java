@@ -17,7 +17,9 @@ public class Game /*implements Serializable*/ {
     @Id
     private String reference;
 
-
+    @Version
+    @Column(name="version")
+    private int version;
     private String name;
 
 
@@ -108,5 +110,13 @@ public class Game /*implements Serializable*/ {
 
     public void setMatches(List<Match> matches) {
         this.matches = matches;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 }

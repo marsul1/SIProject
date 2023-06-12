@@ -26,7 +26,8 @@ CREATE TABLE game
 (
     reference   VARCHAR(10) PRIMARY KEY,
     name VARCHAR(255) UNIQUE NOT NULL,
-    url  VARCHAR(255)        NOT NULL
+    url  VARCHAR(255)        NOT NULL,
+    version INTEGER
 );
 
 -- Create the player_purchase table to track player purchases
@@ -90,6 +91,7 @@ CREATE TABLE badges
     game_ref      VARCHAR(10) REFERENCES game (reference),
     points_limit INTEGER             NOT NULL,
     image_url    VARCHAR(255)        NOT NULL,
+    version      INTEGER,
     PRIMARY KEY (name, game_ref)
 );
 

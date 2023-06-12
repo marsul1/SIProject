@@ -42,3 +42,26 @@ BEGIN
     RETURN max_match_number;
 END;
 $$ LANGUAGE plpgsql;
+
+
+create or replace function f_opt_lock() returns trigger
+language plpgsql as $$
+begin
+if TG_OP = 'INSERT' and new.version is null then
+new.version = 1; -- é o que o JPA coloca no INSERT
+elseif TG_OP = 'UPDATE' then --and new.vers != old.vers+1 then
+-- pode não se ter atualizado a versão
+-- ou a atualização pode não ter sido com +1
+-- assume-se que o JPA incrementa com +1
+new.version = old.version + 1;
+end if;
+return new;
+end; $$;
+CREATE or replace TRIGGER GL_Opt
+BEFORE insert or UPDATE on badges
+                            FOR EACH ROW
+                            execute function f_opt_lock();
+
+UPDATE badges
+SET points_limit = 2000
+WHERE name = 'strong' and game_ref = 'G1';

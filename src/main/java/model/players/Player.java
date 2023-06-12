@@ -225,4 +225,12 @@ public class Player {
     public void setBadges(Set<Badge> badges) {
         this.badges = badges;
     }
+
+    public void addBadge(Badge badge) {
+        this.badges.add(badge);
+    }
+
+    public void removeBadge(Badge badge) {
+        this.badges.remove(badge);
+    }
 }

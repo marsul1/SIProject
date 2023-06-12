@@ -8,10 +8,10 @@ BEGIN
     if not exists(select * from players where id=uid) then
        RAISE  EXCEPTION  'Player doesnt exist';
     end if;    
+
+    select  COUNT(player_id) from single_player_match where player_id = uid into total_jogos_single;
 	
-	select  COUNT(DISTINCT(match_number)) from single_player_match where player_id = uid into total_jogos_single;
-	
-    SELECT COUNT(DISTINCT(pm.match_number))
+    SELECT COUNT(player_id)
 	INTO total_jogos_multi
 	FROM plays_multi AS pm
 	LEFT JOIN multi_player_match AS mpm 
@@ -29,4 +29,5 @@ as select p.id, p.state, p.email, p.username, total_jogos_jogador(p.id),partidas
    from players p
    where p.state != 'Banned';
 
-select jogador_total_info
+
+select  * from jogador_total_info;

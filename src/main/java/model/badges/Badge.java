@@ -3,16 +3,23 @@ package model.badges;
 import jakarta.persistence.*;
 import model.game.Game;
 import model.players.Player;
+import org.eclipse.persistence.annotations.OptimisticLocking;
+import org.eclipse.persistence.annotations.OptimisticLockingType;
 
 import java.util.Set;
 
 @Entity
 @Table(name="badges")
 @NamedQuery(name="Badge.findAll", query="SELECT b FROM Badge b")
+//@OptimisticLocking(cascade=true,type=OptimisticLockingType.CHANGED_COLUMNS)
 public class Badge {
 
     @EmbeddedId
     private BadgePK id;
+
+    @Version
+    @Column(name="version")
+    private int version;
 
     private String image_url;
 
@@ -80,5 +87,13 @@ public class Badge {
 
     public String toString() {
         return "Badge(" + getId().getBadgeName() + ", " + getId().getGameRef() + ", " + getPointsLimit() + ", " + getImageUrl() + ")";
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 }
