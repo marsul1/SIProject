@@ -309,7 +309,7 @@ public class BLService {
                     badgePK.setBadgeName(badgeName);
                     badgePK.setGameRef(gameRef);
 
-                    Badge badge = em.find(Badge.class, badgePK, LockModeType.OPTIMISTIC);
+                    Badge badge = em.find(Badge.class, badgePK);
                     if (badge == null) throw new Exception("Badge inexistente");
 
                     badge.setPointsLimit((int) (badge.getPointsLimit()*1.2));

@@ -11,15 +11,11 @@ import java.util.Set;
 @Entity
 @Table(name="badges")
 @NamedQuery(name="Badge.findAll", query="SELECT b FROM Badge b")
-//@OptimisticLocking(cascade=true,type=OptimisticLockingType.CHANGED_COLUMNS)
+@OptimisticLocking(cascade=true,type=OptimisticLockingType.CHANGED_COLUMNS)
 public class Badge {
 
     @EmbeddedId
     private BadgePK id;
-
-    @Version
-    @Column(name="version")
-    private int version;
 
     private String image_url;
 
@@ -89,11 +85,4 @@ public class Badge {
         return "Badge(" + getId().getBadgeName() + ", " + getId().getGameRef() + ", " + getPointsLimit() + ", " + getImageUrl() + ")";
     }
 
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
-    }
 }
